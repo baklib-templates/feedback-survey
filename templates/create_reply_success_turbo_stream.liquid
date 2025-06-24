@@ -1,0 +1,26 @@
+{% layout none %}
+{%# 根评论 %}
+{% comment %}
+根评论添加后需要完成的操作:
+1、重置评论框
+2、更改回复总数
+3、如果是第一条评论, 则替换列表, 以删除暂无评论(可能存在)的提示, 如果执行了第4步, 则不需要执行此步
+4、将新增评论置于评论列表最上方, 如果执行了第3步, 则不需要执行此步
+5、toast提示
+
+{% endcomment %}{%# %}
+
+{%# 替换评论框 %}
+<turbo-stream action="replace" target="create_reply_{{ reply.target.id }}_form">
+  <template>
+    {% render 'reply_page_form', target: reply.target %}
+  </template>
+</turbo-stream>
+
+{%# 将新增评论添加至回复列表最上面 %}
+{%# 如果当前只有一条评论, 则直接替换列表, 以删除暂无评论的提示 %}
+<turbo-stream action="prepend" target="page_{{ reply.target.id }}_replies_list">
+  <template>
+    {% render 'reply', reply: reply %}
+  </template>
+</turbo-stream>

@@ -1,0 +1,61 @@
+{% if current_user %}
+  <div class="flex space-x-3" id="create_reply_{{ target.id }}_form">
+    <div class="w-full">
+      {% form_tag 'reply' %}
+        <input value="{{ target.full_slug }}" autocomplete="off" type="hidden" name="target_full_path">
+        <input value="create_reply_success" autocomplete="off" type="hidden" name="return_template_name">
+        <input value="true" autocomplete="off" type="hidden" name="reply[published]">
+
+        <div class="relative p-1 mt-4 text-sm rounded-xl border border-gray-200 shadow-sm transition-all bg-slate-50/40 focus-within:border-blue-400 focus-within:bg-white focus-within:shadow-md">
+          <!-- 输入框 -->
+          <textarea
+            class="px-4 py-3 w-full placeholder-gray-400 text-gray-800 bg-transparent border-0 resize-none focus:outline-none"
+            rows="4"
+            placeholder="回复..."
+            name="reply[body]"
+            required
+          ></textarea>
+
+          <!-- 评论按钮 -->
+          <div class="absolute right-3 bottom-3">
+            <button
+              type="submit"
+              class="flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg shadow-sm transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2"
+              @click="open = false;name=content.substring(0, 50)"
+            >
+              <!-- Heroicons: Paper Airplane -->
+              <svg class="mr-1.5 w-5 h-5 -rotate-45" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+              </svg>
+              评论
+            </button>
+          </div>
+        </div>
+
+        <div id="reply_page_error" class="text-xs text-red-500"></div>
+      {% endform_tag %}
+    </div>
+  </div>
+{% else %}
+
+  <div
+  class="p-3 mt-4 bg-blue-50 rounded-md border border-blue-100 dark:border-blue-500/10 dark:bg-blue-500/10">
+    <div class="flex">
+      <div class="flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+          fill="currentColor" aria-hidden="true" class="w-5 h-5 text-blue-400 dark:text-blue-500">
+          <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+            clip-rule="evenodd"></path>
+        </svg></div>
+      <div class="flex-1 ml-3 md:flex md:justify-between">
+        <p class="text-sm leading-5 text-blue-900 dark:text-blue-100">登录后即可参与讨论。</p>
+        <div class="flex items-center mt-3 text-sm font-medium leading-5 md:mt-0 md:ml-6">
+        {% form_tag 'sign_in_with_baklib' %}
+          <button
+            class="text-xs text-blue-700 transition duration-150 ease-in-out cursor-pointer whitespace-no-wrap hover:text-blue-500 main-transition dark:hover:text-blue-200 dark:text-blue-100 hover:text-lightblue-600 unstyled-button">登录 Civitai 账号 →</button>
+        {% endform_tag %}
+      </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

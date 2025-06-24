@@ -1,0 +1,31 @@
+<div class="relative p-1 mt-4 text-sm rounded-xl border border-gray-200 shadow-sm transition-all bg-slate-50/40 focus-within:border-blue-400 focus-within:bg-white focus-within:shadow-md" x-show="open" id="create_reply_{{ parent.id }}_id"
+x-cloak>
+  {% form_tag 'reply' %}
+    <input value="{{ root.target.full_slug }}" autocomplete="off" type="hidden" name="target_full_path">
+    <input value="create_answer_reply_success" autocomplete="off" type="hidden" name="return_template_name">
+    <input value="true" autocomplete="off" type="hidden" name="reply[published]">
+    <input value="{{ root.id }}" autocomplete="off" type="hidden" name="reply[root_id]">
+    <input value="{{ parent.id }}" autocomplete="off" type="hidden" name="reply[parent_id]">
+    <!-- 输入框 -->
+    <textarea
+      class="px-4 py-3 w-full placeholder-gray-400 text-gray-800 bg-transparent border-0 resize-none focus:outline-none" name="reply[body]"
+      rows="4"
+      placeholder="回复..."
+      required
+    ></textarea>
+    <div id="reply_{{ reply.id }}_error" class="text-xs text-red-500"></div>
+    <!-- 评论按钮 -->
+    <div class="absolute right-3 bottom-3">
+      <button
+        type="submit"
+        class="flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg shadow-sm transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2" x-on:click="open = false; content=''"
+      >
+        <!-- Heroicons: Paper Airplane -->
+        <svg class="mr-1.5 w-5 h-5 -rotate-45" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+        </svg>
+        评论
+      </button>
+    </div>
+  {% endform_tag %}
+</div>

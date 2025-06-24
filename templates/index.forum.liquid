@@ -1,0 +1,362 @@
+{% assign default_avatar_url = site.settings.default_avatar %}
+{% unless default_avatar_url  %}
+    {% assign default_avatar_url = 'images/avatar.svg' |  asset_url %}
+{% endunless %}
+{% assign order_by = params._order_by |  default: '-created_at' %}
+{% if order_by == 'related' %}
+    {% assign pages = site.pages['/'].children_in_list | where: 'related', current_user.member_id %}
+{% else %}
+    {% assign pages = site.pages['/'].children_in_list | order_by: order_by %}
+{% endif %}
+{% assign pages_count  =  pages | size %}
+
+<!-- Hero -->
+{% render 'hero', page: page %}
+
+<div class="px-4 sm:px-6 lg:px-8 py-8 md:py-0 my-4 lg:my-8 w-full max-w-7xl mx-auto">
+    <div class="xl:flex" x-data="{ current: true}">
+
+        <!-- Left + Middle content -->
+        <div class="md:flex flex-1">
+
+            <!-- Left content -->
+            <div class="md:w-60 mb-8 md:mb-0 p-2 bg-slate-50 dark:bg-slate-900 rounded-lg border-r border-slate-200 dark:border-slate-800">
+                <div class="md:sticky md:top-16 md:h-[calc(100dvh-64px)] md:overflow-x-hidden md:overflow-y-auto no-scrollbar">
+                    <div class="md:py-4">
+
+                        <div class="flex justify-between items-center md:block">
+
+                            <!-- Title -->
+                            <header class="mb-4">
+                                <h1 class="text-lg md:text-xl text-gray-800 dark:text-gray-100 font-bold">
+                                {{ site.name }}
+                                </h1>
+                            </header>
+
+                            <!-- Button -->
+                            {% if current_user %}
+                                <div class=" mb-6">
+                                    <a href="/s/new" class="btn md:w-full bg-primary text-gray-100 hover:bg-gray-800">
+                                        {{ 'buttons.create_post' | t }}</a>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Links -->
+                        <div
+                            class="flex flex-nowrap overflow-x-scroll no-scrollbar md:block md:overflow-auto px-4 md:space-y-3 -mx-4">
+                            <!-- Group 1 -->
+                            {% if false %}
+                            <div>
+                                <div
+                                    class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-3 md:sr-only">
+                                    {{ 'generic.navigation' | t}}</div>
+                                <ul class="flex flex-nowrap md:block mr-3 md:mr-0">
+                                    <li class="mr-0.5 md:mr-0 md:mb-0.5">
+                                        <a class="flex items-center px-2.5 py-2 rounded-lg whitespace-nowrap bg-white dark:bg-gray-800"
+                                            href="/">
+                                            <svg class="shrink-0 fill-current text-violet-500 mr-2" width="16"
+                                                height="16" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M4.904 10.114a.98.98 0 0 1 0-1.961h5.886a.98.98 0 0 1 0 1.961H4.904ZM2.863 5.166a1.962 1.962 0 0 0-.901 1.651v5.26c0 1.083.878 1.961 1.961 1.961h7.85a1.962 1.962 0 0 0 1.961-1.961v-5.26c0-.668-.34-1.29-.901-1.65L7.848 1.961 2.863 5.166ZM6.786.312a1.962 1.962 0 0 1 2.123 0l4.985 3.204a3.923 3.923 0 0 1 1.802 3.301v5.26A3.923 3.923 0 0 1 11.772 16H3.923A3.923 3.923 0 0 1 0 12.077v-5.26c0-1.335.679-2.579 1.802-3.3L6.786.311Z">
+                                                </path>
+                                            </svg>
+                                            <span class="text-sm font-medium text-violet-500">Home</span>
+                                        </a>
+                                    </li>
+                                    <li class="mr-0.5 md:mr-0 md:mb-0.5">
+                                        <a class="flex items-center px-2.5 py-2 rounded-lg whitespace-nowrap"
+                                            href="#0">
+                                            <svg class="shrink-0 fill-current text-gray-400 dark:text-gray-500 mr-2"
+                                                width="16" height="16" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M14.682 2.318A4.485 4.485 0 0 0 11.5 1 4.377 4.377 0 0 0 8 2.707 4.383 4.383 0 0 0 4.5 1a4.5 4.5 0 0 0-3.182 7.682L8 15l6.682-6.318a4.5 4.5 0 0 0 0-6.364Zm-1.4 4.933L8 12.247l-5.285-5A2.5 2.5 0 0 1 4.5 3c1.437 0 2.312.681 3.5 2.625C9.187 3.681 10.062 3 11.5 3a2.5 2.5 0 0 1 1.785 4.251h-.003Z">
+                                                </path>
+                                            </svg>
+                                            <span
+                                                class="text-sm font-medium text-gray-600 dark:text-gray-300">Reading
+                                                List</span>
+                                        </a>
+                                    </li>
+                                    <li class="mr-0.5 md:mr-0 md:mb-0.5">
+                                        <a class="flex items-center px-2.5 py-2 rounded-lg whitespace-nowrap"
+                                            href="#0">
+                                            <svg class="shrink-0 fill-current text-gray-400 dark:text-gray-500 mr-2"
+                                                width="16" height="16" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M5 9a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2H5ZM1 4a1 1 0 1 1 0-2h14a1 1 0 0 1 0 2H1Zm0 10a1 1 0 0 1 0-2h14a1 1 0 0 1 0 2H1Z">
+                                                </path>
+                                            </svg>
+                                            <span
+                                                class="text-sm font-medium text-gray-600 dark:text-gray-300">Listings</span>
+                                        </a>
+                                    </li>
+                                    <li class="mr-0.5 md:mr-0 md:mb-0.5">
+                                        <a class="flex items-center px-2.5 py-2 rounded-lg whitespace-nowrap"
+                                            href="#0">
+                                            <svg class="shrink-0 fill-current text-gray-400 dark:text-gray-500 mr-2"
+                                                width="16" height="16" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M1 12a1 1 0 0 1-.707-1.704l4.496-4.493a1 1 0 0 1 1.413 0l3.29 3.287 4.79-4.785a1 1 0 1 1 1.413 1.412l-5.496 5.491a1 1 0 0 1-1.413 0L5.496 7.92l-3.79 3.787A1 1 0 0 1 .999 12Z">
+                                                </path>
+                                            </svg>
+                                            <span
+                                                class="text-sm font-medium text-gray-600 dark:text-gray-300">Podcasts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                            <!-- Group 2 -->
+                            <div>
+                                <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-3">
+                                    {{ 'generic.tags' | t}}</div>
+                                <ul class="flex flex-nowrap md:block mr-3 md:mr-0">
+                                    {% for tag in page.settings.tags %}
+                                        <li class="mr-0.5 md:mr-0 md:mb-0.5">
+                                            <a class="flex items-center px-2.5 py-2 rounded-lg whitespace-nowrap"
+                                                href="{{ tag.path }}">
+                                                <svg class="w-3 h-3 shrink-0 fill-current mr-3" style="color: {{ tag.color }}"
+                                                    viewBox="0 0 12 12">
+                                                    <path
+                                                        d="M6 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2A6 6 0 1 1 6 0a6 6 0 0 1 0 12Z">
+                                                    </path>
+                                                </svg>
+                                                <span
+                                                    class="text-sm font-medium text-gray-600 dark:text-gray-300">{{ tag.name }}</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle content -->
+            <div class="flex-1 md:ml-8 xl:mx-4 2xl:mx-8">
+                <div class="md:py-8">
+
+                    <!-- Buttons group -->
+                    <div class="mb-4">
+                        <div class="w-full flex flex-wrap -space-x-px">
+                            <a href="?_order_by=-created_at" class="btn grow border border-r-2 font-semibold border-slate-200 rounded-none hover:text-white first:rounded-l-full last:rounded-r-full" :class="current &&  '{{ order_by }}' === '-created_at' ? '' : 'text-primary !bg-slate-100'">
+                                {{ 'generic.newest' | t }}
+                            </a>
+                            <a href="?_order_by=-views_count" class="btn grow border border-r-2 font-semibold border-slate-200 rounded-none hover:text-white first:rounded-l-full last:rounded-r-full" :class="current &&  '{{ order_by }}' === '-views_count' ? '' : 'text-primary !bg-slate-100'" >
+                                {{ 'generic.popular' | t }}🔥🔥
+                            </a>
+                            <a href="?_order_by=related"  class="btn grow border font-semibold border-slate-200 rounded-none hover:text-white first:rounded-l-full last:rounded-r-full" :class="current &&  '{{ order_by }}' === 'related' ? '' : 'text-primary !bg-slate-100'" >
+                                {{ 'generic.related' | t }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- List container -->
+                    <turbo-frame id="pages_list" class="space-y-2">
+                        {% paginate_tag pages, per: 10 %}
+                            {% for sub_page in pages %}
+                                {% render 'page', page: sub_page %}
+                            {% endfor %}
+                            {% render 'paginate', paginate: paginate %}
+                        {% endpaginate_tag %}
+                    </turbo-frame>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right content -->
+        <div class="w-full hidden xl:block xl:w-72">
+            <div
+                class="lg:sticky lg:top-16 lg:h-[calc(100dvh-64px)] lg:overflow-x-hidden lg:overflow-y-auto no-scrollbar">
+                <div class="md:py-8">
+                    <div class="mb-4">
+                        {% render 'search_form' %}
+                    </div>
+
+                    <!-- Blocks -->
+                    <div class="space-y-4">
+
+                        <!-- Block 1 -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl">
+                            <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-4">
+                                {{ 'generic.recommend' | t}}</div>
+                            <ul>
+                                {% assign index_count = 0 %}
+                                {% for item in pages %}
+                                    {% if index_count > 5 %}
+                                        {% break %}
+                                    {% endif %}
+                                    {% if item.settings.is_recommend %}
+                                    {% assign index_count = index_count + 1 %}
+                                    <!-- Event 1 -->
+                                    <li class="relative pb-4 last-of-type:pb-0">
+                                        <div class="pl-6">
+                                            <div class="text-xs font-medium uppercase text-violet-600 mb-0.5">
+                                                {{ item.created_at | date: "%Y-%m-%d" }}
+                                            </div>
+                                            <div class="text-sm mb-2">
+                                                <a class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white"
+                                                    href="{{ item.path }}">{{ item.settings.title }}</a>
+                                            </div>
+                                            <!-- Avatars -->
+                                            <div class="flex items-center space-x-2">
+                                                <div class="flex -space-x-3 -ml-0.5">
+                                                    {% assign comments = item.comments | roots | order_by: '-created_at' | limit: 3 %}
+                                                    {% for comment in comments %}
+                                                        <img class="rounded-full border-2 border-white dark:border-gray-800 box-content" src="{{ comment.author.avatar_url | default: default_avatar_url  }}" width="32" height="32" alt="User 01" />
+                                                    {% endfor %}
+                                                </div>
+                                                <div
+                                                    class="text-xs font-medium text-gray-400 dark:text-gray-500 italic">
+                                                    +{{ item.comments | size }}</div>
+                                            </div>
+                                        </div>
+                                        <!-- Timeline element -->
+                                        <div aria-hidden="true">
+                                            <div
+                                                class="absolute top-0.5 -bottom-1 left-0.5 ml-px w-0.5 bg-gray-200 dark:bg-gray-700">
+                                            </div>
+                                            <div
+                                                class="absolute top-0.5 left-0 -ml-0.5 w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-500 border-2 border-white dark:border-gray-800">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            <div class="mt-4">
+                                <a href="/s/feed"
+                                    class="btn btn-ghost w-full dark:bg-gray-800 border-gray-200 dark:border-gray-700/60 hover:border-gray-300 dark:hover:border-gray-600 dark:text-gray-300">
+                                    {{ 'generic.read_more' | t}} </a>
+                            </div>
+                        </div>
+
+                        <!-- New Discussions -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl">
+                            <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-4">
+                                {{ 'generic.newest_reply' | t}}</div>
+                            <ul class="space-y-3">
+                                {% assign newest_replies = site.comments | order_by: '-created_at' | limit: 5  %}
+                                {% for reply in newest_replies %}
+                                    <li>
+                                        <div class="flex items-center mb-1">
+                                            <img class="mr-2 rounded-full" src="{{ reply.author.avatar_url | default: default_avatar_url }}" width="16" height="16" alt="User 06" />
+                                            <div class="text-xs">
+                                                <a class="font-medium text-indigo-500 transition duration-150 ease-in-out hover:text-indigo-400" href="#0">{{ reply.author.name }}</a>
+                                            </div>
+                                        </div>
+                                        <h3 class="mb-1 text-sm">
+                                            <a class="font-semibold transition duration-150 ease-in-out hover:text-slate-600 dark:hover:text-white" href="{{ reply.target.full_slug  }}"> {{ reply.body | sanitize_html |  truncate: 100 }}</a>
+                                        </h3>
+                                        <div class="text-xs text-slate-600">
+                                            <span class="text-slate-500">{{ reply.created_at | date: "%Y-%m-%d %H:%M" }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Popular pages -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl">
+                            <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-4">
+                                {{ 'generic.popular_reply' | t}}</div>
+                            <ul class="space-y-3">
+                                {% assign popular_replies = site.comments | order_by: '-published_replies_count' | limit: 3  %}
+                                {% for reply in popular_replies %}
+                                    <li>
+                                        <div class="flex items-center mb-1">
+                                            <img class="mr-2 rounded-full" src="{{ reply.author.avatar_url | default: default_avatar_url }}" width="16" height="16" alt="User 06" />
+                                            <div class="text-xs">
+                                                <a class="font-medium text-indigo-500 transition duration-150 ease-in-out hover:text-indigo-400" href="#0">{{ reply.author.name }}</a>
+                                            </div>
+                                        </div>
+                                        <h3 class="mb-1 text-sm">
+                                            <a class="font-semibold transition duration-150 ease-in-out hover:text-slate-600 dark:hover:text-white" href="{{ reply.target.full_slug  }}"> {{ reply.body | sanitize_html |  truncate:  100}}</a>
+                                        </h3>
+                                        <div class="text-xs text-slate-600">
+                                            <span class="text-slate-500">{{ reply.created_at | date: "%Y-%m-%d %H:%M" }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="mt-4">
+                                <button
+                                    class="btn-sm w-full text-white dark:bg-gray-800 border-gray-200 dark:border-gray-700/60 hover:border-gray-300 dark:hover:border-gray-600 ">
+                                    {{ 'generic.read_more' | t}}</button>
+                            </div>
+                        </div>
+
+                        <!-- Newsletter -->
+                        {%# render 'news_letter' %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% schema %}
+    {
+        "name": "Index Forum",
+        "description": "Community Index Page Forum Theme",
+        "thumb_url": "images/theme/index-forum.png",
+        "sub_page_templates": ["page"],
+        "settings": [
+            {
+                "id": "slogan",
+                "type": "text",
+                "label": "站点口号",
+                "default": "👋 A community of makers that learn and grow together"
+            },
+            {
+                "id": "description",
+                "type": "text",
+                "label": "t:settings_schema.generic.settings.description.label",
+                "default": "👋 Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever."
+            },
+            {
+                "id": "tags",
+                "type": "tag_picker",
+                "multiple": true,
+                "label": "站点热门标签"
+            },
+            {
+                "id": "text_color",
+                "type": "color",
+                "label": "Hero 文字颜色"
+            },
+            {
+                "id": "bg_color",
+                "label": "Hero 背景色",
+                "type": "color_background"
+            },
+            {
+                "id": "illustration_url",
+                "type": "image_picker",
+                "ratio": "16:9",
+                "width": 400,
+                "label": "Hero 背景插图（SVG）",
+                "info": "虚幻背景SVG格式，参考："
+            },
+            {
+                "id": "hero_url",
+                "type": "image_picker",
+                "ratio": "4:3",
+                "width": 400,
+                "label": "Hero Banner 图片（PNG）",
+                "info": "PNG 透明背景格式，参考："
+            }
+        ]
+    }
+{% endschema %}

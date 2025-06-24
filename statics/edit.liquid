@@ -1,0 +1,50 @@
+{% assign title  =  'buttons.edit' | t %}
+{% set_meta_title title %}
+
+{%  assign page = current_user.pages[params.page_path] %}
+{% if current_user %}
+  <main class="grow">
+    <section class="relative">
+      <!-- Illustration -->
+      <div class="absolute -translate-x-1/2 pointer-events-none left-1/2 -z-10" aria-hidden="true">
+          <img src="{{ 'images/demo/hero-illustration.svg' | asset_url }}" class="max-w-none" width="1905" height="622" alt="Hero Illustration">
+      </div>
+      <div class="max-w-6xl px-4 mx-auto sm:px-6">
+        <div class="pt-6 md:pt-12">
+          <div class="md:flex md:justify-between md:divide-x md:divide-slate-300 dark:md:divide-slate-800">
+            <div class="md:grow ">
+              <!-- Page header -->
+              <header class="mb-4">
+                <h1 class="mb-4 h3 md:h3 font-aspekta ">{{ 'buttons.edit_post' | t }}</h1>
+              </header>
+              <!-- Page content -->
+              <div class="md:grow ">
+                <div class="md:pr-6 lg:pr-20">
+                  {% form_tag 'edit_page', page %}
+                    {% render 'page_form', page: page,  action: 'edit' %}
+                  {% endform_tag %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="pt-6 pb-12 md:w-64 lg:w-80 md:shrink-0 md:pb-20">
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% else %}
+  <div class="w-2/3 px-2 mx-auto sm:px-6 min-h-fit">
+    未登录跳转登录页...
+    {% form_tag 'sign_in_with_baklib' %}
+      <input value="true" type="hidden" name="sign_up">
+      <input type="submit"
+        value="{{ "buttons.login" | t: '登录' }}"
+        class="items-center hidden px-3 py-2 text-sm font-medium text-white transition duration-150 ease-in-out hover:text-slate-200 lg:px-5"
+        data-disable-with=" ... " x-init="$el.click()"
+        >
+    {% endform_tag %}
+  </div>
+{% endif %}

@@ -1,0 +1,43 @@
+{% assign default_illustration_url = 'images/demo/hero-illustration.svg' |  asset_url %}
+{% assign default_hero_url = 'images/demo/hero-image.png' |  asset_url %}
+{% assign default_slogan =  '👋 A community of makers that learn and grow together' %}
+{% assign default_description =  '👋 Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.' %}
+
+<!-- Hero -->
+<section class="relative overflow-hidden">
+    <!-- Bg -->
+    <div class="absolute inset-0 bg-opacity-50 pointer-events-none -z-10" aria-hidden="true" style="background: {{ page.settings.bg_color }};"></div>
+
+    <!-- Illustration -->
+    {% if page.settings.illustration_url %}
+        <div class="absolute -translate-x-1/2 pointer-events-none left-1/2 -z-10" aria-hidden="true">
+            <img src="{{ page.settings.illustration_url }}" class="max-w-none min-h-96" alt="Hero Illustration">
+        </div>
+    {% endif %}
+
+    <div class="max-w-7xl px-4 mx-auto sm:px-6">
+        <div class="pb-8 pt-12 md:pt-24 md:pb-16">
+
+            <!-- Hero content -->
+            <div class="relative flex flex-col max-w-xl mx-auto text-center md:max-w-none md:text-left md:flex-row">
+
+                <!-- Content -->
+                <div class="md:w-[48rem]">
+
+                    <!-- Copy -->
+                    <div class="md:pr-32">
+                        <h1 class="pb-6 text-transparent h2 font-aspekta bg-clip-text" style="color: {{ page.settings.text_color | default: '#333' }};">{{ page.settings.slogan |  default: default_slogan }}</h1>
+                        <p class="mb-8 text-lg" style="color: {{ page.settings.text_color | default: '#333' }};">{{ page.settings.description |  default: default_description }}</p>
+                    </div>
+
+                    <!-- Image -->
+                    {% if page.settings.hero_url %}
+                        <div class="max-w-sm mx-auto md:max-w-none md:absolute md:left-[42rem] lg:left-[48rem] mt-12 md:mt-0 md:top-1/2 md:-translate-y-1/2">
+                            <img src="{{ page.settings.hero_url }}" class="mx-auto md:max-w-none max-h-64" alt="Hero Image" />
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

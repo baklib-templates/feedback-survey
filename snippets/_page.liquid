@@ -1,0 +1,99 @@
+<!-- Item -->
+{% assign default_avatar_url = site.settings.default_avatar %}
+{% unless default_avatar_url %}
+{% assign default_avatar_url = 'images/avatar.svg' | asset_url %}
+{% endunless %}
+<div>
+    <div class="flex relative pr-0 w-full shadow-sm duration-75 ease-in sm:items-stretch hover:bg-gray-50/90 dark:hover:bg-border/30"
+        data-controller="dialog-fetch" data-dialog-fetch-url-value="{{ page.path }}"
+        >
+        <a data-action="click->dialog-fetch#openDialog" class="overflow-auto py-4 pr-3 pl-4 my-auto w-full min-w-0 h-full rounded-md cursor-pointer sm:pl-5 sm:py-5">
+            <div class="relative">
+                {% if page.settings.planned %}
+                <div class="flex absolute -right-2 -top-4 items-center p-1 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 -mt-[3px] mr-0.5" width="44" height="44"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" style="color: rgb(71, 141, 206);">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path
+                            d="M15.113 3.21l.094 .083l5.5 5.5a1 1 0 0 1 -1.175 1.59l-3.172 3.171l-1.424 3.797a1 1 0 0 1 -.158 .277l-.07 .08l-1.5 1.5a1 1 0 0 1 -1.32 .082l-.095 -.083l-2.793 -2.792l-3.793 3.792a1 1 0 0 1 -1.497 -1.32l.083 -.094l3.792 -3.793l-2.792 -2.793a1 1 0 0 1 -.083 -1.32l.083 -.094l1.5 -1.5a1 1 0 0 1 .258 -.187l.098 -.042l3.796 -1.425l3.171 -3.17a1 1 0 0 1 1.497 -1.26z"
+                            stroke-width="0" fill="currentColor"></path>
+                    </svg>
+                    <p class="dark:text-foreground uppercase text-[11px] tracking-wide font-semibold">Pinned</p>
+                </div>
+                {% endif %}
+
+                <p class="text-base font-semibold line-clamp-2 content dark:text-white">{{ page.settings.title }}</p>
+                <p class="mt-1 text-gray-600 line-clamp-2 dark:text-foreground">{{ page.settings.content | strip_html |
+                    truncate: 280 }}</p>
+
+                <div class="flex flex-wrap gap-3 justify-between items-end pt-3.5">
+                    <div class="flex items-center mr-2">
+                        <div class="flex relative flex-shrink-0 justify-center items-center w-5 h-5 rounded-full">
+                            <div class="absolute inset-0 rounded-full bg-gray-100/30 dark:bg-secondary/70"></div>
+                            <img class="object-cover relative z-10 w-full h-full rounded-full"
+                                src="{{ page.author.avatar_url }}">
+                        </div>
+                        <p class="ml-1.5 text-sm dark:text-foreground">
+                            <span class="font-medium">{{ page.author.name }}</span>
+                            <span
+                                class="ml-1.5 text-xs font-medium sm:text-sm sm:font-normal dark:text-foreground/70 text-background-accent">
+                                {{ page.created_at | time_ago }}{% if page.created_at %} 前{% endif %}
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center space-x-2 -mb-[3px]">
+                        <div
+                            class="flex items-center px-2 py-1 text-sm font-medium rounded-md border-gray-200 dark:text-foreground">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                aria-hidden="true"
+                                class="mr-1 w-3.5 h-3.5 text-background-accent/50 dark:text-background-accent">
+                                <path fill-rule="evenodd"
+                                    d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ page.comments | size }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <div x-data="{ posted_feedback: {{ page.visitor_posted_feedback | present? }}, feedback_count: {{ page | feedback_type_count: site.settings.feedback_useful_type }}  } "
+            class="flex">
+            <div x-show="posted_feedback == true" @click="posted_feedback=false;feedback_count--" x-cloak class="flex">
+                {% form_tag 'delete_feedback', page: page, useful_type: site.settings.feedback_useful_type, class:
+                'flex' %}
+                <button name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type  }}"
+                    class="flex flex-col flex-shrink-0 justify-center items-center py-2 w-14 border-l cursor-pointer group sm:w-16">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                        class="w-6 h-6 group-focus:-translate-y-2 group-hover:-translate-y-0.5 main-transition"
+                        :class="{ '!text-primary': 'posted_feedback' }">
+                        <path fill-rule="evenodd"
+                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                            clip-rule="evenodd">
+                        </path>
+                    </svg>
+                    <p class="font-medium" x-text="feedback_count"></p>
+                </button>
+                {% endform_tag %}
+            </div>
+            <div x-show="posted_feedback == false" @click="posted_feedback=true;feedback_count++" class="flex" x-cloak>
+                {% form_tag 'feedback', page: page, class: 'flex' %}
+                <button name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type }}"
+                    class="flex flex-col flex-shrink-0 justify-center items-center py-2 w-14 border-l cursor-pointer group sm:w-16">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                        class="w-6 h-6 group-focus:-translate-y-2 group-hover:-translate-y-0.5 main-transition">
+                        <path fill-rule="evenodd"
+                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                            clip-rule="evenodd">
+                        </path>
+                    </svg>
+                    <p class="font-medium" x-text="feedback_count"></p>
+                </button>
+                {% endform_tag %}
+            </div>
+        </div>
+    </div>
+    <div class="sm:hidden"></div>
+</div>

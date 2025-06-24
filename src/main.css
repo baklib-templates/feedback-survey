@@ -1,0 +1,89 @@
+@import './additional-styles/utility-patterns.css';
+@import './additional-styles/range-slider.css';
+@import './additional-styles/toggle-switch.css';
+@import './additional-styles/theme.css';
+@import './additional-styles/popper.css';
+@import './additional-styles/tooltip.css';
+@import './additional-styles/tom-select.css';
+@import './additional-styles/color_picker_controller.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@config '../tailwind.config.js';
+
+
+/* generic css */
+body.asleep header {
+  @apply h-[80px] shadow-md shadow-gray-400
+}
+body.asleep header .ctm-header_between {
+  @apply h-full
+}
+body.asleep header .ctm-header_center {
+  @apply h-full mt-6 sm:mt-5
+}
+body.asleep header .asleep_toggle {
+  @apply opacity-0 mt-4
+}
+body.asleep #screen {
+  @apply h-[80px]
+}
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.search-highlight-block b {
+  color: hsl(var(--theme-color-primary));
+}
+
+/* range 选择范围组件样式 */
+.dynamic-form--range__container{
+  @apply flex flex-col px-2 pb-2 space-y-2 text-xs;
+}
+
+.dynamic-form--range__container > div:nth-child(1) > span:nth-child(2){
+  @apply font-bold text-xs text-primary;
+}
+
+.form-range {
+  @apply block w-full appearance-none bg-transparent outline-none
+  [--range-thumb-size:1.125rem] [--range-track-h:0.375rem];
+}
+
+.form-range::-webkit-slider-thumb {
+  @apply relative top-[50%] h-[var(--range-thumb-size)] w-[var(--range-thumb-size)] cursor-pointer appearance-none rounded-full border-none bg-current active:opacity-[.85];
+  transform: translateY(-50%);
+}
+
+.form-range::-moz-range-thumb {
+  @apply relative top-[50%] h-[var(--range-thumb-size)] w-[var(--range-thumb-size)] cursor-pointer appearance-none rounded-full border-none bg-current active:opacity-[.85];
+}
+
+.form-range::-moz-range-track {
+  @apply h-[var(--range-track-h)] w-full rounded-full bg-slate-150 dark:bg-navy-500;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  @apply h-[var(--range-track-h)] w-full rounded-full bg-slate-150 dark:bg-navy-500;
+}
+
+.editor.editing {
+  border-width: 0px;
+}
+
+.editor__toolbar {
+  border-bottom-width: 0px;
+}
+
+.editor__content {
+  @apply px-4 py-0;
+}
+
+.popper-box {
+  @apply bg-white
+}

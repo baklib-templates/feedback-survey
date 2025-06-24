@@ -1,0 +1,71 @@
+{
+  "theme_label": "Question Community",
+  "theme_description": "A lightweight Q&A management system designed for creating and managing question-and-answer content such as FAQs, troubleshooting guides, knowledge base articles, user support threads, and more.",
+  "generic": {
+    "search": "Search",
+    "search_from": "Searching...",
+    "all": "All",
+    "popular": "Popular",
+    "popular_reply": "Popular Comments",
+    "newest": "Newest",
+    "newest_reply": "Recent Comments",
+    "related": "Related",
+    "feedback": "Feedback",
+    "visit": "Visit",
+    "vote": "Vote",
+    "reply": "Reply",
+    "comments": "comments",
+    "join_to": "You need to register to reply, click here to join",
+    "profile": "Profile",
+    "title": "Title",
+    "content": "Content",
+    "home": "Home",
+    "back": "Back",
+    "submit": "Submit",
+    "failed": "Failed",
+    "navigation": "Navigation",
+    "tags": "Tags",
+    "recommend": "Recommend",
+    "under_review": "The content is under review, will not be displayed to the public",
+    "under_comment": "You need to log in to comment",
+    "empty": "Content is Empty",
+    "articles": "articles",
+    "feeds": "Feeds",
+    "read_more": "Read more",
+    "404": "404 not found",
+    "403": "403 No access permission",
+    "copyright": "All rights reserved",
+    "news_letter": "Join the community and participate in the discussion",
+    "terms1": "The submitted content needs to be reviewed by the backend administrator before it can be displayed on the front end.",
+    "terms2": "Platform users must comply with relevant statements and terms: "
+  },
+  "placeholders": {
+    "search": "Searching...",
+    "input_feedback": "Send us your feedback",
+    "input_password": "Please input your password"
+  },
+  "buttons": {
+    "login": "Login",
+    "logout": "Logout",
+    "create_post": "Create Post",
+    "edit_post": "Edit Post",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "delete",
+    "cancel": "Cancel",
+    "join": "Join Community",
+    "sso_login": "SSO Login",
+    "baklib_login": "Baklib Account Login",
+    "redirect_to": "Not logged in, Redirect to the login page"
+  },
+  "paginate": {
+    "showing": "currently showing",
+    "total": "total",
+    "records": "records",
+    "previous": "Previous Page",
+    "next": "Next Page"
+  },
+  "prompts": {
+    "page_restricted": "This page can only be accessed with authentication"
+  }
+}

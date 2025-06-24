@@ -1,0 +1,165 @@
+<header class="bg-white shadow-sm">
+  <div class="w-full bg-white">
+    <div class="flex justify-between items-center px-6 pt-6 mx-auto max-w-7xl">
+      <!-- 左侧 Logo+品牌 -->
+      <div class="flex items-center space-x-3">
+        <img
+          src="{{ site.settings.logo_url }}"
+          alt="Civitai"
+          class="w-10 h-10"
+        />
+        <span class="text-2xl font-bold text-[#22223b]"> {{ site.name }} </span>
+      </div>
+      <!-- 右侧登录按钮 -->
+      {% if current_user %}
+      <div>
+        <div data-controller="dropdown" class="relative">
+          <button
+            type="button"
+            data-action="dropdown#toggle click@window->dropdown#hide"
+            class="flex items-center space-x-1 btn btn-sm btn-ghost"
+          >
+            <span>{{ 'generic.profile' | t }}</span>
+          </button>
+          <div
+            data-dropdown-target="menu"
+            class="absolute right-0 hidden min-w-[10rem] origin-top-right transform rounded-md border border-slate-150 bg-white px-2 py-1.5 font-inter shadow-lg transition dark:border-navy-500 dark:bg-navy-700"
+            data-transition-enter-from="opacity-0 scale-95"
+            data-transition-enter-to="opacity-100 scale-100"
+            data-transition-leave-from="opacity-100 scale-100"
+            data-transition-leave-to="opacity-0 scale-95"
+          >
+            <div class="flex items-center py-2 space-x-2 border-b">
+              {% if current_user.image %}
+              <img src="{{ current_user.image }}" class="w-4 h-4" />
+              {% else %}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 rounded-full"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+              </svg>
+              {% endif %}
+              <span>{{ current_user.name }}</span>
+            </div>
+            <a
+              href="{{ current_user.profile_url }}"
+              class="block py-2 w-full hover:bg-accent hover:text-white"
+              target="_blank"
+            >
+              {{ 'generic.profile' | t }}
+            </a>
+            {% form_tag 'sign_out' %}
+            <button
+              type="submit"
+              class="py-2 w-full text-left hover:bg-accent hover:text-white"
+            >
+              {{ 'buttons.logout' | t }}
+            </button>
+            {% endform_tag %}
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <button
+        class="rounded-full border border-gray-200 bg-white px-6 py-2 font-semibold text-[#384062] shadow-sm transition hover:bg-gray-50"
+      >
+        Log in with Civitai account
+      </button>
+      {% endif %}
+    </div>
+    <!-- Tab 菜单 -->
+    <div class="flex items-center px-6 mx-auto mt-2 space-x-2 max-w-7xl">
+      <!-- Feedback (active) -->
+      <a
+        href="#"
+        class="-mb-px flex items-center rounded-t-xl border border-b-0 border-gray-200 bg-white px-5 py-2 font-semibold text-[#384062] shadow-sm"
+      >
+        <!-- 反馈图标 -->
+        <svg
+          class="mr-2 h-5 w-5 text-[#384062]"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <rect
+            x="4"
+            y="4"
+            width="16"
+            height="16"
+            rx="2"
+            fill="currentColor"
+            fill-opacity="0.15"
+          />
+          <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor" />
+        </svg>
+        Feedback
+      </a>
+      <!-- Roadmap -->
+      <a
+        href="#"
+        class="flex items-center px-5 py-2 font-semibold text-[#8b95b6] transition hover:text-[#384062]"
+      >
+        <!-- 路线图图标 -->
+        <svg
+          class="mr-2 w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M4 17V7a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"
+            fill="currentColor"
+            fill-opacity="0.15"
+          />
+          <path
+            d="M14 7h6M14 12h6M14 17h6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        Roadmap
+      </a>
+      <!-- Changelog -->
+      <a
+        href="#"
+        class="flex items-center px-5 py-2 font-semibold text-[#8b95b6] transition hover:text-[#384062]"
+      >
+        <!-- 刷新图标 -->
+        <svg
+          class="mr-2 w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M4 4v6h6M20 20v-6h-6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9 20a8 8 0 107-7.75"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        Changelog
+      </a>
+    </div>
+  </div>
+</header>

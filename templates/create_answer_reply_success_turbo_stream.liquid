@@ -1,0 +1,23 @@
+{% layout none %}
+{%# 子回复 %}
+{% comment %}
+子回复添加后需要完成的操作:
+1、重置评论框
+2、更改回复总数
+3、将新增子回复置于回复对象下方
+4、toast提示
+{% endcomment %}{%# %}
+
+{%# 隐藏评论框 %}
+<turbo-stream action="replace" target="create_reply_{{ reply.parent.id }}_id">
+  <template>
+    {% render 'reply_answer_form', root: reply.root, parent: reply.parent %}
+  </template>
+</turbo-stream>
+
+{%# 将新增评论添加至根评论的子回复最上方 %}
+<turbo-stream action="prepend" target="answer_{{ reply.root.id }}_replies_list">
+  <template>
+    {% render 'reply', reply: reply %}
+  </template>
+</turbo-stream>

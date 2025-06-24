@@ -1,0 +1,20 @@
+{% assign title  =  'generic.comments' | t %}
+{% set_meta_title title %}
+
+{% assign page = site.pages[params.page_path] %}
+{% assign answers = page.comments | roots  %}
+<ul id="page_{{ page.id }}_replies_list" data-load_more-target="container">
+  {% paginate_tag answers, per: 4 %}
+    {% for reply in answers %}
+      {% render 'reply', reply: reply %}
+    {% endfor %}
+  {% endpaginate_tag %}
+</ul>
+{{ paginate.next.page  }}
+{% if paginate.next_page %}
+  <button id="load_more" data-action="click->load_more#loadMore" data-load_more-url-value="/s/replies?page_path={{ page.path }}&_page={{ paginate.next_page }}"
+  data-load_more-target="button"
+  >
+  {{ 'generic.more' | t }}
+  </button>
+{% endif %}

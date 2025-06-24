@@ -1,0 +1,39 @@
+<main class="grow">
+  <section>
+    <div class="max-w-7xl px-4 mx-auto sm:px-6">
+      <div class="pt-6 md:pt-12">
+        <div class="h-auto min-h-screen overflow-visible">
+          <div class="relative max-w-7xl px-3 mx-auto  sm:px-0">
+            <!-- Hero -->
+            <section class="relative">
+                <!-- Background gradient (light version only) -->
+                <div class="absolute inset-0 bg-gradient-to-t from-primary-200 dark:from-primary to-white opacity-50 pointer-events-none dark:hidden" aria-hidden="true"></div>
+                <!-- End background gradient (light version only) -->
+                <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+                    <div class="py-6 md:py-12">
+                        <div class="max-w-3xl mx-auto text-center">
+                            <div class="max-w-2xl mx-auto md:px-4">
+                              <h1 class="h3 md:h2"># {{ tag.name }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="my-4 space-y-3">
+              {% paginate_tag tag.pages, as: 'pages' %}
+                {% for page in pages %}
+                  {% render 'page', page: page %}
+                {% else %}
+                  <div class="w-full mx-auto my-8">{{ "search.no_results" | t: 'No results found' }}</div>
+                {% endfor %}
+                {% render 'paginate', paginate: paginate %}
+              {% endpaginate_tag %}
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

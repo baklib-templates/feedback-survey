@@ -1,0 +1,93 @@
+.popper-root {
+    position: absolute;
+    visibility: hidden;
+    z-index: 1000
+}
+
+.popper-root.show {
+    visibility: visible
+}
+
+.popper-root > .popper-box {
+    /* color: #64748b; */
+    color: #111;
+    opacity: 0;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(0,0,.2,1)
+}
+
+:is(.dark .popper-root>.popper-box) {
+    color: #a3adc2
+}
+
+.popper-root>.popper-box {
+    transition-property: transform,visibility,opacity
+}
+
+.popper-root.show>.popper-box {
+    opacity: 1;
+    transform: translate(0)!important;
+    transition-timing-function: cubic-bezier(.4,0,1,1)
+}
+
+.popper-root[data-popper-placement^=right]>.popper-box {
+    --tw-translate-x: 0.75rem
+}
+
+.popper-root[data-popper-placement^=bottom]>.popper-box,.popper-root[data-popper-placement^=right]>.popper-box {
+    transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+.popper-root[data-popper-placement^=bottom]>.popper-box {
+    --tw-translate-y: 0.75rem
+}
+
+.popper-root[data-popper-placement^=top]>.popper-box {
+    --tw-translate-y: -0.75rem
+}
+
+.popper-root[data-popper-placement^=left]>.popper-box,.popper-root[data-popper-placement^=top]>.popper-box {
+    transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+.popper-root[data-popper-placement^=left]>.popper-box {
+    --tw-translate-x: -0.75rem
+}
+
+.popper-root[data-popper-placement^=top] [data-popper-arrow] {
+    bottom: .25rem
+}
+
+.popper-root[data-popper-placement^=top] [data-popper-arrow]>svg {
+    --tw-rotate: 180deg;
+    top: .875rem;
+    transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+.popper-root[data-popper-placement^=bottom] [data-popper-arrow] {
+    top: .25rem
+}
+
+.popper-root[data-popper-placement^=bottom] [data-popper-arrow]>svg {
+    bottom: .875rem
+}
+
+.popper-root[data-popper-placement^=left] [data-popper-arrow] {
+    right: .125rem
+}
+
+.popper-root[data-popper-placement^=left] [data-popper-arrow] svg {
+    left: 13px;
+    top: calc(50% - 5px);
+    transform: rotate(90deg)
+}
+
+.popper-root[data-popper-placement^=right] [data-popper-arrow] {
+    left: .125rem
+}
+
+.popper-root[data-popper-placement^=right] [data-popper-arrow] svg {
+    right: 13px;
+    top: calc(50% - 5px);
+    transform: rotate(-90deg)
+}
