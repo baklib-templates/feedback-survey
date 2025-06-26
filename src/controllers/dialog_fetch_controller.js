@@ -30,6 +30,10 @@ export default class extends Controller {
 
         const modal = document.querySelector("#headlessui-dialog");
 
+        const header = doc.querySelector('header');
+        if (header) {
+          header.remove();
+        }
         const dialog_content = doc.querySelector('#dialog_content');
         if (!modal.hasAttribute('class')) {
           modal.setAttribute('class', 'fixed inset-0 z-[100] custom-scrollbar-stronger overflow-y-auto overflow-x-hidden');

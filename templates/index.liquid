@@ -17,67 +17,7 @@
         </div>
       </div>
 
-      <div class="flex items-center space-x-3">
-        <!-- Top -->
-        <button
-          class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
-          <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2"
-            viewBox="0 0 24 24">
-            <path d="M3 17l6-6 4 4 8-8" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          Top
-        </button>
-        <!-- New -->
-        <button
-          class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
-          <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2"
-            viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          最新
-        </button>
-        <!-- Trending -->
-        <button
-          class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
-          <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2"
-            viewBox="0 0 24 24">
-            <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          热门
-        </button>
-        <!-- Search -->
-        <button
-          class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
-          <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2"
-            viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          搜索
-        </button>
-        <!-- Filter -->
-        <button
-          class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
-          <svg class="w-5 h-5 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path
-              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 13.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-3.586L3.293 6.707A1 1 0 013 6V4z"
-              stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
-        <!-- Create New Feature Request -->
-        <button
-          class="flex items-center px-6 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow transition hover:bg-blue-700"
-          data-controller="dialog-fetch"
-          data-dialog-fetch-url-value="/s/new"
-          data-action="click->dialog-fetch#openDialog">
-          <svg class="mr-2 w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          提交新功能建议
-        </button>
-      </div>
+      {% render 'filter' %}
       <!-- Feedback List Items -->
       <div class="mt-4 w-full border divide-y dark:divide-border divide-gray-100/60 sm:rounded-lg">
         {% paginate_tag pages, per: 12 %}
@@ -90,19 +30,17 @@
     </section>
 
     <!-- Sidebar: Most Helpful -->
+    {% assign users = site.users | order_by: '-pages_count' %}
     <aside class="w-full md:w-72">
       <div class="p-4 bg-white rounded shadow">
-        <h2 class="mb-4 text-lg font-semibold">Most Helpful</h2>
+        <h2 class="mb-4 text-lg font-semibold">贡献榜</h2>
         <ul class="space-y-2">
+          {% for user in users %}
           <li class="flex justify-between items-center">
-            <span class="text-gray-800">NecoArcLife</span>
-            <span class="px-2 py-0.5 text-xs text-gray-600 bg-gray-100 rounded">651</span>
+            <span class="text-gray-800">{{user.name}}</span>
+            <span class="px-2 py-0.5 text-xs text-gray-600 bg-gray-100 rounded"> {{ user.pages_count }} </span>
           </li>
-          <li class="flex justify-between items-center">
-            <span class="text-gray-800">NecoArcLife</span>
-            <span class="px-2 py-0.5 text-xs text-gray-600 bg-gray-100 rounded">651</span>
-          </li>
-          <!-- ...more items -->
+          {% endfor %}
         </ul>
       </div>
     </aside>

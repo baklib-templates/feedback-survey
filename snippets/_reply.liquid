@@ -1,16 +1,14 @@
 <li class="relative w-full" id="reply_{{ reply.id }}">
   <div class="flex items-start space-x-2.5 w-full">
-    <div
-      class="overflow-hidden w-8 h-8 rounded-full">
-      <img class="object-cover z-10 w-full h-full rounded-full"
-        src="{{ reply.author.avatar_url }}">
+    <div class="overflow-hidden w-8 h-8 rounded-full">
+      <img class="object-cover z-10 w-full h-full rounded-full" src="{{ reply.author.avatar_url }}">
     </div>
-    <div class="relative z-10 flex-1 w-full sm:pb-[24px] pb-[18px]" id="comment-65b5872b22a4123c7f11e0f0" x-data="{open: false}">
+    <div class="relative z-10 flex-1 w-full sm:pb-[24px] pb-[18px]" id="comment-65b5872b22a4123c7f11e0f0"
+      x-data="{open: false}">
       <div class="flex flex-wrap items-center text-sm mt-[6.5px]">
-        <p class="px-1 py-0.5 -m-1 font-semibold rounded-md cursor-default pointer-events-none dark:text-gray-100"
-        > {{ reply.author.name }} </p>
-        <span
-          class="mx-1.5 text-gray-200 pointer-events-none dark:text-foreground/60">•</span>
+        <p class="px-1 py-0.5 -m-1 font-semibold rounded-md cursor-default pointer-events-none dark:text-gray-100"> {{
+          reply.author.name }} </p>
+        <span class="mx-1.5 text-gray-200 pointer-events-none dark:text-foreground/60">•</span>
         <span class="cursor-default">
           <p
             class="text-background-accent mt-[0.5px] cursor-default text-[11px] font-medium dark:text-foreground/80 first-letter:uppercase">
@@ -25,30 +23,52 @@
 
       <div class="flex gap-2 items-center -ml-0.5">
         <div class="flex items-center rounded-md">
-          <button
-            class="px-1 py-1 bg-transparent border border-transparent border-none shadow-none dark:shadow-none dark:bg-transparent dark:border-transparent hover:border-gray-100 hover:bg-gray-100/60 dark:hover:bg-border dark:hover:border-dark-accent">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              aria-hidden="true" class="w-4 h-4 secondary-svg">
-              <path
-                d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
-              </path>
-            </svg>
-          </button>
-          <p class="font-bold cursor-default min-w-[20px] text-center dark:group-hover:bg-secondary main-transition text-gray-500 dark:border-border/80 text-[13px] py-1 px-2 dark:text-foreground">7</p>
-          <button
-            class="px-1 py-1 bg-transparent border border-transparent border-none shadow-none dark:shadow-none dark:bg-transparent dark:border-transparent hover:border-gray-100 hover:bg-gray-100/60 dark:hover:bg-border dark:hover:border-dark-accent">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              aria-hidden="true" class="w-4 h-4 secondary-svg">
-              <path
-                d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z">
-              </path>
-            </svg>
-          </button>
+          <div
+            x-data="{ posted_feedback: {{ reply.visitor_posted_feedback | present? }}, feedback_count: {{ reply | feedback_type_count: site.settings.feedback_useful_type }}  } "
+            class="flex">
+            <div x-show="posted_feedback == true" @click="posted_feedback=false;feedback_count--" x-cloak class="flex">
+              {% form_tag 'delete_feedback', reply: reply, useful_type: site.settings.feedback_useful_type, class:
+              'flex' %}
+                <button
+                  class="px-1 py-1 bg-transparent border border-transparent border-none shadow-none dark:shadow-none dark:bg-transparent dark:border-transparent hover:border-gray-100 hover:bg-gray-100/60 dark:hover:bg-border dark:hover:border-dark-accent"
+                  name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type  }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    :class="{ '!text-primary': 'posted_feedback' }" aria-hidden="true" class="w-4 h-4 secondary-svg">
+                    <path
+                      d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
+                    </path>
+                  </svg>
+                </button>
+                <p class="font-bold cursor-default  text-center dark:group-hover:bg-secondary main-transition text-gray-500 dark:border-border/80 text-[13px] py-1  dark:text-foreground px-2 empty:hidden"
+                  x-text="feedback_count"></p>
+              {% endform_tag %}
+            </div>
+            <div @click="posted_feedback=true;feedback_count++" class="flex" x-show="posted_feedback == false"  x-cloak>
+              {% form_tag 'feedback', reply: reply, class: 'flex' %}
+                <button
+                  class="px-1 py-1 bg-transparent border border-transparent border-none shadow-none dark:shadow-none dark:bg-transparent dark:border-transparent hover:border-gray-100 hover:bg-gray-100/60 dark:hover:bg-border dark:hover:border-dark-accent"
+                  name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type  }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                    class="w-4 h-4 secondary-svg">
+                    <path
+                      d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
+                    </path>
+                  </svg>
+                </button>
+                <p class="font-bold cursor-default  text-center dark:group-hover:bg-secondary main-transition text-gray-500 dark:border-border/80 text-[13px] py-1  dark:text-foreground px-2 empty:hidden"
+                  x-text="feedback_count"></p>
+              {% endform_tag %}
+            </div>
+          </div>
+
+
+
         </div>
         <button
-          class="inline-flex items-center p-1 text-xs text-gray-500 whitespace-nowrap bg-transparent border border-transparent shadow-none dark:shadow-none dark:text-foreground dark:hover:bg-secondary hover:bg-gray-50 sm:dark:hover:border-border sm:dark:border-transparent" @click="open = !open">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"  fill="currentColor"
-            aria-hidden="true" class="mr-1 w-3 secondary-svg">
+          class="inline-flex items-center p-1 text-xs text-gray-500 whitespace-nowrap bg-transparent border border-transparent shadow-none dark:shadow-none dark:text-foreground dark:hover:bg-secondary hover:bg-gray-50 sm:dark:hover:border-border sm:dark:border-transparent"
+          @click="open = !open">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+            class="mr-1 w-3 secondary-svg">
             <path fill-rule="evenodd"
               d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
               clip-rule="evenodd"></path>
@@ -56,20 +76,23 @@
           回复
         </button>
         {% if reply.author.creator? %}
-          {% form_tag 'reply', reply, method: 'delete' %}
-            <input value="destroy_reply_success" autocomplete="off" type="hidden" name="return_template_name">
-            <button class="inline-flex items-center p-1 text-xs text-gray-500 whitespace-nowrap bg-transparent border border-transparent shadow-none dark:shadow-none dark:text-foreground dark:hover:bg-secondary hover:bg-gray-50 sm:dark:hover:border-border sm:dark:border-transparent">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-              </svg>
-              {{ 'buttons.delete' | t }} </button>
-          {% endform_tag %}
+        {% form_tag 'reply', reply, method: 'delete' %}
+        <input value="destroy_reply_success" autocomplete="off" type="hidden" name="return_template_name">
+        <button
+          class="inline-flex items-center p-1 text-xs text-gray-500 whitespace-nowrap bg-transparent border border-transparent shadow-none dark:shadow-none dark:text-foreground dark:hover:bg-secondary hover:bg-gray-50 sm:dark:hover:border-border sm:dark:border-transparent">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-3">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+          </svg>
+          {{ 'buttons.delete' | t }} </button>
+        {% endform_tag %}
         {% endif %}
       </div>
       {% if reply.root %}
-        {% assign root = reply.root %}
+      {% assign root = reply.root %}
       {% else %}
-        {% assign root = reply %}
+      {% assign root = reply %}
       {% endif %}
 
       {% render 'reply_answer_form', root: root, parent: reply %}
@@ -80,7 +103,7 @@
   {% assign replies = reply.replies %}
   <ul class="ml-6 space-x-2.5 w-full sm:ml-7" id="answer_{{ reply.id }}_replies_list">
     {% for reply in replies %}
-      {% render 'reply', reply: reply %}
+    {% render 'reply', reply: reply %}
     {% endfor %}
   </ul>
 </li>

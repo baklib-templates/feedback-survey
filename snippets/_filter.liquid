@@ -1,0 +1,147 @@
+<div class="flex justify-between items-center">
+  <div class="flex space-x-3">
+    <!-- New -->
+    <button
+      class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
+      <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      最新
+    </button>
+    <!-- Trending -->
+    <button
+      class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition">
+      <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24">
+        <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      热门
+    </button>
+  </div>
+  <div class="flex space-x-3">
+    <div x-data="{ showInput: false, search: '' }" class="flex relative items-center">
+      <!-- 搜索按钮 -->
+      <button
+        @click="showInput = true; $nextTick(() => $refs.searchInput.focus())"
+        x-show="!showInput"
+        class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-white text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition"
+      >
+        <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        搜索
+      </button>
+
+      <!-- 搜索输入框 -->
+      <div x-show="showInput" class="flex items-center w-full max-w-md border border-[#d1d5db] rounded-lg bg-white px-2 py-1 transition focus-within:border-blue-200" @click.away="showInput = false">
+        <svg class="w-5 h-5 text-[#9ca3af] mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          placeholder="Search for posts"
+          class="flex-1 bg-transparent border-0 focus:outline-none focus:ring-0 focus:border-0 text-[#6b7280] placeholder-[#9ca3af] text-base"
+          x-ref="searchInput"
+          x-model="search"
+        />
+        <!-- 滤镜图标 -->
+        <button class="ml-2 p-2 text-[#9ca3af] hover:text-[#4b5563]">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="w-3.5 h-3.5 secondary-svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div x-data="{ open: false, activeTab: 'status' }" class="relative">
+      <!-- 按钮 -->
+      <button
+        @click="open = !open"
+        class="flex items-center px-4 py-2 text-base font-semibold text-gray-600 bg-white rounded-lg border border-gray-300 shadow-sm transition hover:bg-gray-50"
+      >
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 13.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-3.586L3.293 6.707A1 1 0 013 6V4z" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="ml-2">筛选</span>
+        <svg :class="{'rotate-180': open}" class="ml-2 w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- 下拉浮层 -->
+      <div
+        x-show="open"
+        @click.away="open = false"
+        x-transition
+        class="absolute left-0 top-full z-50 p-6 mt-2 w-full bg-white rounded-lg border border-gray-200 shadow-lg"
+        style="min-width: 600px;"
+      >
+        <!-- 字母导航 -->
+        <div class="flex flex-wrap gap-2 mb-4 font-semibold text-blue-800">
+          <button
+            class="px-2 py-1 rounded hover:bg-blue-100"
+            :class="activeTab === 'status' ? 'bg-blue-600 text-white' : ''"
+            @click="activeTab = 'status'"
+          > 状态</button>
+          <button
+            class="px-2 py-1 rounded hover:bg-blue-100"
+            :class="activeTab === 'board' ? 'bg-blue-600 text-white' : ''"
+            @click="activeTab = 'board'"
+          > board </button>
+        </div>
+        <!-- 内容区：每个字母对应一块内容 -->
+        <div>
+          <div x-show="activeTab === 'status'">
+            <div class="grid grid-cols-3 gap-8">
+              <ul class="space-y-1">
+                <li>A200-3000</li>
+                <li>A300-3000</li>
+                <li>A500 Pro-3000</li>
+              </ul>
+              <ul class="space-y-1">
+                <li>A2001 A2 Box</li>
+                <li>A300-3010</li>
+                <li>A500-3000</li>
+              </ul>
+              <ul class="space-y-1">
+                <li>A200T A3 Box8</li>
+                <li>A300T-9000</li>
+                <li>A500-3010</li>
+              </ul>
+            </div>
+          </div>
+          <div x-show="activeTab === 'board'">
+            <div class="grid grid-cols-3 gap-8">
+              <ul class="space-y-1">
+                <li>BCD-1000</li>
+                <li>BCD-2000</li>
+              </ul>
+              <ul class="space-y-1">
+                <li>Boxer Pro</li>
+              </ul>
+              <ul class="space-y-1">
+                <li>BlueSky</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create New Feature Request -->
+    <button
+      class="flex items-center px-6 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow transition hover:bg-blue-700"
+      data-controller="dialog-fetch"
+      data-dialog-fetch-url-value="/s/new"
+      data-action="click->dialog-fetch#openDialog">
+      <svg class="mr-2 w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      提交新功能建议
+    </button>
+  </div>
+</div>

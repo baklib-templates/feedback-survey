@@ -26,6 +26,7 @@ import SmartForegroundColorController from "./controllers/smart_foreground_color
 // 颜色选择器
 import ColorPickerController from "./controllers/color_picker_controller"
 import DialogFetchController from "./controllers/dialog_fetch_controller"
+import DamUrlController from "./controllers/dam_url_controller.js"
 
 Alpine.directive("tom-select", tomSelect);
 Alpine.directive("tooltip", tooltip);
@@ -50,5 +51,6 @@ application.register("upload", UploadController)
 application.register("smart-foreground-color", SmartForegroundColorController)
 application.register("color-picker", ColorPickerController)
 application.register("dialog-fetch", DialogFetchController)
+application.register("dam-url", DamUrlController)
 
 

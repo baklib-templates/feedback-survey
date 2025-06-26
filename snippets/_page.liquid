@@ -5,8 +5,9 @@
 {% endunless %}
 <div>
     <div class="flex relative pr-0 w-full shadow-sm duration-75 ease-in sm:items-stretch hover:bg-gray-50/90 dark:hover:bg-border/30"
-        data-controller="dialog-fetch" data-dialog-fetch-url-value="{{ page.path }}"
-        >
+    data-controller="dialog-fetch"
+    data-dialog-fetch-url-value="{{ page.path }}"
+    >
         <a data-action="click->dialog-fetch#openDialog" class="overflow-auto py-4 pr-3 pl-4 my-auto w-full min-w-0 h-full rounded-md cursor-pointer sm:pl-5 sm:py-5">
             <div class="relative">
                 {% if page.settings.planned %}
@@ -31,7 +32,7 @@
                     <div class="flex items-center mr-2">
                         <div class="flex relative flex-shrink-0 justify-center items-center w-5 h-5 rounded-full">
                             <div class="absolute inset-0 rounded-full bg-gray-100/30 dark:bg-secondary/70"></div>
-                            <img class="object-cover relative z-10 w-full h-full rounded-full"
+                            <img class="object-cover relative w-full h-full rounded-full"
                                 src="{{ page.author.avatar_url }}">
                         </div>
                         <p class="ml-1.5 text-sm dark:text-foreground">

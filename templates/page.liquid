@@ -27,37 +27,35 @@
       <div class="h-full" id="dialog_content">
         <div class="flex flex-col h-full md:flex-row">
           <div class="w-full p-[18px] md:py-5 md:w-8/12 relative overflow-hidden">
+            {% if page.published_at == nil %}
+              <div
+                class=" mb-5 flex items-center border border-accent/20 dark:border-accent/[13%] w-full bg-accent/10 dark:bg-accent/[12%] rounded-md p-3">
+                <div class="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    fill="currentColor" aria-hidden="true" class="w-4 h-4 text-accent dark:text-accent">
+                    <path fill-rule="evenodd"
+                      d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd"></path>
+                  </svg></div>
+
+                <p class="text-[13px] items-center ml-2 font-medium leading-5 text-accent-foreground dark:text-white/90">此帖子正在等待管理员的审核。其他人看不到它。
+                </p>
+              </div>
+            {% endif %}
+
             <div class="flex items-start w-full">
               <div class="w-full">
-                <div tabindex="1"
-                  class="flex overflow-hidden gap-3 justify-between items-start pb-3 outline-none dark:outline-none focus:outline-none dark:focus:outline-none">
-                  <div class="w-full">
+                <div class="flex overflow-hidden gap-3 justify-between items-start pb-3 w-full outline-none dark:outline-none focus:outline-none dark:focus:outline-none">
                     <h1 class="w-full text-lg font-semibold text-gray-800 dark:text-white content line-clamp-5">
                       {{ page.settings.title }}</h1>
                   </div>
-                  <div class="flex-shrink-0 text-xs">
-                    <p class="flex items-center p-1.5 py-1 rounded-md shadow-none cursor-default select-none secondary-raised-card"
-                      data-state="closed">
-                    <div class="flex-shrink-0 mr-1 w-4 h-4 text-accent"><svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <circle cx="7" cy="18" r="2"></circle>
-                        <circle cx="7" cy="6" r="2"></circle>
-                        <circle cx="17" cy="12" r="2"></circle>
-                        <line x1="7" y1="8" x2="7" y2="16"></line>
-                        <path d="M7 8a4 4 0 0 0 4 4h4"></path>
-                      </svg></div>1</p>
-                  </div>
-                </div>
-                <div class="relative">
-                  <div
-                    class="text-[15px]  content  text-gray-600 dark:text-foreground max-h-[602px] h-full overflow-auto flow-root pt-1 ProseMirror prose sm:prose-base lg:prose-lg focus:outline-none">
-                    {{ page.settings.content }}
-                  </div>
+                <div
+                  class="text-[15px]  content  text-gray-600 dark:text-foreground max-h-[602px] h-full overflow-auto flow-root pt-1 ProseMirror prose sm:prose-base lg:prose-lg focus:outline-none">
+                  {{ page.settings.content }}
                 </div>
               </div>
             </div>
+
             <div class="pt-4 sm:pt-8"></div>
             <div class="mt-3">
               <div class="relative z-50 bg-white rounded-md dark:bg-card"><button tabindex="-1"
@@ -80,24 +78,24 @@
               {% assign color2 = 'rgb(244, 114, 182)' %}
               <div class="pt-0.5 -mt-1 rounded-b-lg border border-t-0 rounded-x-lg">
                 {% for similar_page in related_pages %}
-                  <div class="flex items-center px-0.5 py-0.5 mx-1.5 mt-2.5 text-sm rounded-md group">
-                    <a target="_blank"
-                      rel="noreferrer"
-                      class="flex gap-1 items-start px-2.5 py-2 mr-2 w-full font-medium text-gray-600 rounded-md dark:text-foreground main-transition hover:bg-gray-100/40 dark:hover:bg-border/50"
-                      href="/p/filtering-by-your-liked-model">
-                      <div class="mt-[7px]">
-                        <div
-                          class="flex-shrink-0 mr-2 w-1.5 h-1.5 rounded-full bg-background-accent/60 dark:bg-gray-200/50"
-                          style="background-color: {% cycle color1, color2 %};"></div>
+                <div class="flex items-center px-0.5 py-0.5 mx-1.5 mt-2.5 text-sm rounded-md group">
+                  <a target="_blank" rel="noreferrer"
+                    class="flex gap-1 items-start px-2.5 py-2 mr-2 w-full font-medium text-gray-600 rounded-md dark:text-foreground main-transition hover:bg-gray-100/40 dark:hover:bg-border/50"
+                    href="/p/filtering-by-your-liked-model">
+                    <div class="mt-[7px]">
+                      <div
+                        class="flex-shrink-0 mr-2 w-1.5 h-1.5 rounded-full bg-background-accent/60 dark:bg-gray-200/50"
+                        style="background-color: {% cycle color1, color2 %};"></div>
+                    </div>
+                    <div>
+                      <div class="flex gap-1.5 items-center w-full cursor-pointer"><span
+                          class="font-medium text-left line-clamp-1"> {{ similar_page.settings.title }} </span>
                       </div>
-                      <div>
-                        <div class="flex gap-1.5 items-center w-full cursor-pointer"><span
-                            class="font-medium text-left line-clamp-1"> {{ similar_page.settings.title }} </span>
-                        </div>
-                        <div class="mt-0.5 text-xs text-left opacity-80 line-clamp-2">{{ similar_page.settings.content | strip_html | truncate: 280  }} </div>
-                      </div>
-                    </a>
-                  </div>
+                      <div class="mt-0.5 text-xs text-left opacity-80 line-clamp-2">{{ similar_page.settings.content |
+                        strip_html | truncate: 280 }} </div>
+                    </div>
+                  </a>
+                </div>
                 {% endfor %}
               </div>
             </div>
@@ -111,19 +109,18 @@
                       class="inline-block px-1.5 py-px ml-2 text-xs font-medium text-gray-800 rounded-full bg-gray-100/60 dark:bg-gray-200">
                       {{ page.comments | size }}
                     </div>
-                  </button><button
-                    class="flex items-center px-2 pb-1.5 text-gray-500 rounded-none border-b-2 border-transparent cursor-pointer focus:ring-0 hover:border-gray-100/70 dark:hover:border-dark-accent dark:text-foreground main-transition">动态更新</button></div><button type="button" id="radix-:ro1:" aria-haspopup="menu" aria-expanded="false"
-                  data-state="closed" class="text-xs shadow-none dark:shadow-none dashboard-secondary">Top
-                  comments</button>
+                  </button>
+                </div><button type="button"
+                  class="text-xs shadow-none dark:shadow-none dashboard-secondary">按热度</button>
               </div>
 
-              {% assign answers = page.comments | roots  %}
+              {% assign answers = page.comments | roots | order_by: '-feedbacks_count' %}
               <div class="flow-root justify-center items-center">
                 <ul role="list" class="pl-0 list-none">
                   <div class="overflow-y-auto pb-8 custom-scrollbar-stronger">
-                    <div class="pt-2 opacity-100" id="page_{{ page.id }}_replies_list" >
+                    <div class="pt-2 opacity-100" id="page_{{ page.id }}_replies_list">
                       {% for answer in answers %}
-                        {% render 'reply', reply: answer %}
+                      {% render 'reply', reply: answer %}
                       {% endfor %}
                     </div>
                   </div>
@@ -139,18 +136,17 @@
                 <button tabindex="-1"
                   class="flex justify-center items-center p-1 w-full h-full rounded-none rounded-t-md border-0 dark:hover:bg-secondary dark:shadow bg-card"
                   data-controller="dialog-fetch" data-dialog-fetch-url-value="{{ page.prev_page.path }}"
-                  data-action="click->dialog-fetch#openDialog"
-                  data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                    aria-hidden="true" class="secondary-svg !w-3.5 !h-3.5">
+                  data-action="click->dialog-fetch#openDialog" data-state="closed"><svg
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                    class="secondary-svg !w-3.5 !h-3.5">
                     <path fill-rule="evenodd"
                       d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
                       clip-rule="evenodd"></path>
                   </svg></button><button tabindex="-1"
                   class="p-1 w-full flex bg-white/40 hover:bg-white/80 dark:bg-transparent rounded-none shadow-gray-200/[6%] shadow-inner rounded-b-md dark:hover:bg-secondary items-center justify-center border-0 dark:shadow-black/10 h-full"
                   data-controller="dialog-fetch" data-dialog-fetch-url-value="{{ page.next_page.path }}"
-                  data-action="click->dialog-fetch#openDialog"
-                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                    aria-hidden="true" class="secondary-svg !w-3.5 !h-3.5">
+                  data-action="click->dialog-fetch#openDialog"><svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="secondary-svg !w-3.5 !h-3.5">
                     <path fill-rule="evenodd"
                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                       clip-rule="evenodd"></path>
@@ -160,27 +156,26 @@
               <div class="grid grid-cols-5 gap-y-4 items-center p-4 border-b dashboard-border">
                 <div class="col-span-2"><span class="font-medium">投票</span></div>
                 <div class="col-span-3">
-                  <div class="flex items-center" x-data="{ posted_feedback: {{ page.visitor_posted_feedback | present? }}, feedback_count: {{ page | feedback_type_count: site.settings.feedback_useful_type }}  } ">
+                  <div class="flex items-center"
+                    x-data="{ posted_feedback: {{ page.visitor_posted_feedback | present? }}, feedback_count: {{ page | feedback_type_count: site.settings.feedback_useful_type }}  } ">
                     <div x-show="posted_feedback == true" @click="posted_feedback=false;feedback_count--" x-cloak>
                       {% form_tag 'delete_feedback', page: page, useful_type: site.settings.feedback_useful_type %}
-                        <button
-                          name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type  }}"
-                          class="flex justify-center items-center px-2 py-1 w-16 text-gray-500 rounded-md border shadow-none white-btn dark:text-foreground dark:border-border bg-gray-50/50 border-gray-100/50 dark:bg-secondary dark:hover:bg-border"><svg
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                            class="flex-shrink-0 mr-2 w-5 h-5 dark:text-foreground/60 text-background-accent/80"
-                            :class="{ '!text-primary': 'posted_feedback' }">
-                            <path fill-rule="evenodd"
-                              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                              clip-rule="evenodd"></path>
-                          </svg>
-                          <p class="font-medium" x-text="feedback_count"></p>
-                        </button>
+                      <button name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type  }}"
+                        class="flex justify-center items-center px-2 py-1 w-16 text-gray-500 rounded-md border shadow-none white-btn dark:text-foreground dark:border-border bg-gray-50/50 border-gray-100/50 dark:bg-secondary dark:hover:bg-border"><svg
+                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                          class="flex-shrink-0 mr-2 w-5 h-5 dark:text-foreground/60 text-background-accent/80"
+                          :class="{ '!text-primary': 'posted_feedback' }">
+                          <path fill-rule="evenodd"
+                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                            clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="font-medium" x-text="feedback_count"></p>
+                      </button>
                       {% endform_tag %}
                     </div>
-                    <div x-show="posted_feedback == false" @click="posted_feedback=true;feedback_count++"  x-cloak>
+                    <div x-show="posted_feedback == false" @click="posted_feedback=true;feedback_count++" x-cloak>
                       {% form_tag 'feedback', page: page %}
-                        <button
-                        name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type }}"
+                      <button name="feedback[useful_type]" value="{{ site.settings.feedback_useful_type }}"
                         class="flex justify-center items-center px-2 py-1 w-16 text-gray-500 rounded-md border shadow-none white-btn dark:text-foreground dark:border-border bg-gray-50/50 border-gray-100/50 dark:bg-secondary dark:hover:bg-border"><svg
                           xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                           class="flex-shrink-0 mr-2 w-5 h-5 dark:text-foreground/60 text-background-accent/80">
@@ -189,7 +184,7 @@
                             clip-rule="evenodd"></path>
                         </svg>
                         <p class="font-medium" x-text="feedback_count"></p>
-                        </button>
+                      </button>
                       {% endform_tag %}
                     </div>
                   </div>
@@ -276,44 +271,61 @@
 "default": false
 },
 {
-  "id": "status",
-  "type": "select",
-  "label": "状态",
-  "info": "状态",
-  "default": "Awaiting Dev Review",
-  "choices": [
-    {
-      "label": "Awaiting Dev Review",
-      "value": "Awaiting Dev Review"
-    },
-    {
-      "label": "In Progress",
-      "value": "In Progress" }
+"id": "status",
+"type": "select",
+"label": "状态",
+"info": "状态",
+"default": "Awaiting Dev Review",
+"choices": [
+{
+"label": "待开发评审",
+"value": "Inbox"
+},
+{
+"label": "计划中",
+"value": "Planned"
+},
+{
+"label": "进行中",
+"value": "In Progress"
+},
+{
+"label": "已完成",
+"value": "Completed"
+},
+{
+"label": "重复",
+"value": "Duplicate"
+},
+{
+"label": "已拒绝",
+"value": "Rejected"
+}
 ]},
 {
-  "id": "board",
-  "type": "select",
-  "label": "Board",
-  "info": "Board",
-  "default": "💡 Feature Request",
-  "choices": [
-    {
-      "label": "💡 Feature Request",
-      "value": "💡 Feature Request"
-    },
-    {
-      "label": "Bug",
-      "value": "Bug"
-    },
-    {
-      "label": "Task",
-      "value": "Task"
-    },
-    {
-      "label": "Question",
-      "value": "Question"
-    }
-  ]
+"id": "board",
+"type": "select",
+"label": "Board",
+"info": "Board",
+"default": "💡 Feature Request",
+"choices": [
+{
+"label": "💡 功能需求",
+"value": "Feature Request"
+},
+{
+"label": "🐛 BUG报告",
+"value": "Bug"
+},
+{
+"label": "小改进",
+"value": "Task"
+},
+{
+"label": "问题咨询",
+"value": "问题咨询"
+}
+]
 }
 ],
 "user_creatable": true,
