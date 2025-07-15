@@ -2,6 +2,8 @@
   <input value="page" autocomplete="off" type="hidden" name="page[template_name]">
   <input value="" autocomplete="off" type="hidden" name="page[template_style]">
   <input value="{{ site.settings.is_allow_published }}" autocomplete="off" type="hidden" name="page[published]">
+  <input value="" autocomplete="off" type="hidden" name="page[template_variables][status]" x-model="status">
+  <input value="" autocomplete="off" type="hidden" name="page[template_variables][board]" x-model="board">
   {%# 提示 %}
 </div>
 <div class="flex justify-between items-center px-4 pt-4 pb-2">
@@ -22,9 +24,10 @@
         clip-rule="evenodd"></path>
     </svg>
     <div data-controller="dropdown" class="relative">
-      <button type="button" data-action="dropdown#toggle click@window->dropdown#hide"
-        class="flex items-center px-1.5 py-1 h-7 text-xs font-medium text-gray-500 rounded-md create-post-btn dark:text-foreground">
-        <span class="mr-1 -ml-[2px]">💡 功能需求
+      <button type="button"
+      data-action="dropdown#toggle click@window->dropdown#hide"
+        class="flex items-center px-1.5 py-1 h-7 text-xs font-medium text-gray-500 rounded-md shadow dark:text-foreground">
+        <span class="mr-1 -ml-[2px]" x-text="board_name">
         </span>
       </button>
       <div data-dropdown-target="menu"
@@ -32,19 +35,19 @@
         <div class="flex flex-col space-y-2 w-full h-full rounded-md">
           <div
             class="text-sm text-center cursor-pointer"
-            data-value="🐛 Bug Reports">💡 功能需求
+            data-value="🐛 Bug Reports" @click="board = 'feature_request'; board_name = '💡 功能需求'">💡 功能需求
           </div>
           <div
             class="text-sm text-center cursor-pointer"
-            data-value="🐛 Bug Reports">🐛 BUG报告
+            data-value="🐛 Bug Reports" @click="board = 'bug'; board_name = '🐛 BUG报告'">🐛 BUG报告
           </div>
           <div
             class="text-sm text-center cursor-pointer"
-            data-value="🐛 Bug Reports">✨ 细节优化
+            data-value="🐛 Bug Reports" @click="board = 'task'; board_name = '✨ 细节优化'">✨ 细节优化
           </div>
           <div
             class="text-sm text-center cursor-pointer"
-            data-value="🐛 Bug Reports">问题咨询
+            data-value="🐛 Bug Reports" @click="board = 'question'; board_name = '问题咨询'">问题咨询
           </div>
         </div>
       </div>
@@ -61,7 +64,7 @@
 <div class="relative px-1 mt-1">
   <input name="page[template_variables][title]"
     class="pl-4 text-base font-medium bg-transparent border-0 dark:text-white sm:text-lg dark:bg-transparent focus-within:outline-none focus-within:ring-0 dark:focus-within:outline-none"
-    placeholder="您的帖子标题" value="">
+    placeholder="您的帖子标题" value="" required>
 </div>
 <div class="px-1 mb-1">
   <div class="flex flex-col space-y-5">
@@ -73,45 +76,17 @@
   </div>
 </div>
 <div class="flex gap-5 justify-between items-center px-4 py-4 ml-auto border-t dark:border-white/5">
-  <div data-controller="dropdown" class="relative">
-    <button class="flex items-center px-1.5 py-0.5 text-[11px] rounded-md create-post-btn truncate max-w-[120px]"
-      type="button" data-action="dropdown#toggle click@window->dropdown#hide">
-      <div class="mr-1.5">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-          class="w-3.5 h-3.5 text-background-accent/60 dark:text-foreground/60" style="fill: rgb(56, 189, 248);">
-          <path fill-rule="evenodd"
-            d="M5.05 3.636a1 1 0 010 1.414 7 7 0 000 9.9 1 1 0 11-1.414 1.414 9 9 0 010-12.728 1 1 0 011.414 0zm9.9 0a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zM7.879 6.464a1 1 0 010 1.414 3 3 0 000 4.243 1 1 0 11-1.415 1.414 5 5 0 010-7.07 1 1 0 011.415 0zm4.242 0a1 1 0 011.415 0 5 5 0 010 7.072 1 1 0 01-1.415-1.415 3 3 0 000-4.242 1 1 0 010-1.415zM10 9a1 1 0 011 1v.01a1 1 0 11-2 0V10a1 1 0 011-1z"
-            clip-rule="evenodd"></path>
-        </svg>
-      </div><span class="truncate">待开发评审</span>
-    </button>
-
-    <div data-dropdown-target="menu"
-      class="absolute right-0 hidden min-w-[10rem] origin-top-right transform rounded-md border border-slate-150 bg-white px-2 py-1.5 font-inter shadow-lg transition dark:border-navy-500 dark:bg-navy-700 z-50">
-      <div class="flex flex-col space-y-2 w-full h-full rounded-md">
-        <div
-          class="text-sm text-center cursor-pointer"
-          data-value="🐛 Bug Reports">计划中
-        </div>
-        <div
-          class="text-sm text-center cursor-pointer"
-          data-value="🐛 Bug Reports">进行中
-        </div>
-        <div
-          class="text-sm text-center cursor-pointer"
-          data-value="🐛 Bug Reports">已完成
-        </div>
-        <div
-          class="text-sm text-center cursor-pointer"
-          data-value="🐛 Bug Reports">重复
-        </div>
-        <div
-          class="text-sm text-center cursor-pointer"
-          data-value="🐛 Bug Reports">已拒绝
-        </div>
-      </div>
-    </div>
-  </div>
+  <button class="flex items-center px-1.5 py-0.5 text-[11px] rounded-md create-post-btn truncate max-w-[120px]"
+  type="button" data-action="dropdown#toggle click@window->dropdown#hide">
+  <div class="mr-1.5">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+      class="w-3.5 h-3.5 text-background-accent/60 dark:text-foreground/60" style="fill: rgb(56, 189, 248);">
+      <path fill-rule="evenodd"
+        d="M5.05 3.636a1 1 0 010 1.414 7 7 0 000 9.9 1 1 0 11-1.414 1.414 9 9 0 010-12.728 1 1 0 011.414 0zm9.9 0a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zM7.879 6.464a1 1 0 010 1.414 3 3 0 000 4.243 1 1 0 11-1.415 1.414 5 5 0 010-7.07 1 1 0 011.415 0zm4.242 0a1 1 0 011.415 0 5 5 0 010 7.072 1 1 0 01-1.415-1.415 3 3 0 000-4.242 1 1 0 010-1.415zM10 9a1 1 0 011 1v.01a1 1 0 11-2 0V10a1 1 0 011-1z"
+        clip-rule="evenodd"></path>
+    </svg>
+  </div><span class="truncate">待开发评审</span>
+  </button>
   <div class="flex flex-shrink-0 gap-5 items-center ml-auto">
     <div class="hidden gap-2.5 items-center text-xs sm:flex">
     </div><button

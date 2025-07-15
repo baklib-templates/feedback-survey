@@ -69,23 +69,23 @@
         </div>
       </div>
       {% else %}
-      <button
-        class="rounded-full border border-gray-200 bg-white px-6 py-2 font-semibold text-[#384062] shadow-sm transition hover:bg-gray-50"
-      >
-        登录
-      </button>
+
+      {% form_tag 'sign_in_with_baklib' %}
+        <button
+        class="rounded-full border border-gray-200 bg-white px-6 py-2 font-semibold text-[#384062] shadow-sm transition hover:bg-gray-50">登录</button>
+      {% endform_tag %}
       {% endif %}
     </div>
     <!-- Tab 菜单 -->
     <div class="flex items-center px-6 mx-auto mt-2 space-x-2 max-w-7xl">
       <!-- Feedback (active) -->
       <a
-        href="#"
-        class="-mb-px flex items-center rounded-t-xl border border-b-0 border-gray-200 bg-white px-5 py-2 font-semibold text-[#384062] shadow-sm"
+        href="/"
+        class="-mb-px flex items-center rounded-t-xl  border-b-0 border-gray-200  px-5 py-2 font-semibold {% if page.path == '/' %} border bg-white text-slate-700 shadow-sm {% else %} text-[#8b95b6] {% endif %}"
       >
         <!-- 反馈图标 -->
         <svg
-          class="mr-2 h-5 w-5 text-[#384062]"
+          class="mr-2 w-5 h-5"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -106,8 +106,9 @@
       </a>
       <!-- Roadmap -->
       <a
-        href="#"
-        class="flex items-center px-5 py-2 font-semibold text-[#8b95b6] transition hover:text-[#384062]"
+        href="/roadmap"
+        class="flex items-center px-5 py-2 rounded-t-xl font-semibold  transition border-b-0 hover:text-[#384062] {% if page.template_name == 'roadmap' %} border bg-white text-slate-700 shadow-sm {% else %} text-[#8b95b6] {% endif %}"
+        data-nav-tree-target="item"
       >
         <!-- 路线图图标 -->
         <svg

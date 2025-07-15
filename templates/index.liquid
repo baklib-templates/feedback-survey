@@ -4,7 +4,32 @@
   <!-- Main Content -->
   <main class="container flex flex-col gap-8 px-4 py-8 mx-auto md:flex-row">
     <!-- Feedback List -->
-    <section class="flex-1">
+    <turbo-frame id="feedback-list" class="flex-1">
+
+      {% assign order_by = params.sort |  default: '-created_at' %}
+      {% if order_by %}
+        {% assign pages = pages | order_by: order_by %}
+      {% endif %}
+
+      <!-- 通过 query进行动态字段过滤数据 -->
+      {% query pages from pages %}
+      {
+        "where": {
+          "settings.templates/page.liquid:status_eq": "{{ params.status }}",
+          "settings.templates/page.liquid:board_eq": "{{ params.board }}"
+        }
+      }
+      {% endquery %}
+
+      <!-- 通过 search 对 pages1 结果进行全文搜索, 并渲染结果 -->
+      {% search pages, keywords: params.q %}
+        {%  assign extends_size = search.extend | size  %}
+        {%  assign pages_size = search.pages | size  %}
+        {% assign total_size = extends_size | plus: pages_size %}
+        {% if total_size > 0 %}
+          {%  assign pages = search.pages %}
+        {% endif %}
+      {% endsearch %}
       <!-- Top bar -->
       <div class="flex flex-col gap-3 mb-4 md:flex-row md:items-center md:justify-between">
         <div
@@ -25,9 +50,8 @@
             {% render 'page', page: page %}
           {% endfor %}
         {% endpaginate_tag %}
-
       </div>
-    </section>
+    </turbo-frame>
 
     <!-- Sidebar: Most Helpful -->
     {% assign users = site.users | order_by: '-pages_count' %}

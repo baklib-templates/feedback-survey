@@ -19,7 +19,7 @@
     </div>
     <div
       class="relative z-50 mx-4 my-10 w-full max-w-2xl bg-white rounded-lg shadow-2xl opacity-100 transition-transform ease-in-out transform scale-100 dropdown-background dark:shadow-2xl 2xl:mx-0 sm:mx-8" >
-      <div class="mx-auto min-w-0 max-w-7xl" >
+      <div class="mx-auto min-w-0 max-w-7xl" x-data="{ status: 'Inbox', board: 'feature_request', board_name: '💡 功能需求' }">
         {% form_tag 'page' %}
           {% render 'page_form', page: page,  action: 'create' %}
         {% endform_tag %}

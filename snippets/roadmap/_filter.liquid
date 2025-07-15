@@ -1,0 +1,130 @@
+<div class="flex items-center space-x-3" x-data="{
+      status: '{{ params.status }}',
+      board: '{{ params.board }}',
+      sort: '{{ params.sort }}',
+      q: '{{ params.q }}',
+      showInput: {{ params.q | present? }}
+    }">
+  <a :href="`?status=${status}&board=${board}&sort=${sort}&q=${q}`" x-ref="filterSubmit" class="hidden">
+  </a>
+  <div class="flex relative items-center">
+    <!-- 搜索按钮 -->
+    <button
+      class="flex justify-center items-center w-10 h-10 text-gray-400 bg-white rounded-lg border border-gray-200 transition hover:bg-gray-50"
+      @click="showInput = true; $nextTick(() => $refs.searchInput.focus())" x-show="!showInput">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </button>
+
+    <!-- 搜索输入框 -->
+    <div x-show="showInput"
+      class="flex items-center w-full max-w-md border border-[#d1d5db] rounded-lg bg-white px-2 py-1 transition focus-within:border-blue-200"
+      @click.away="showInput = false">
+      <svg class="w-5 h-5 text-[#9ca3af] mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input type="text" placeholder="Search for posts"
+        class="flex-1 bg-transparent border-0 focus:outline-none focus:ring-0 focus:border-0 text-[#6b7280] placeholder-[#9ca3af] text-base"
+        x-ref="searchInput" x-model="q"
+        @keyup.enter="$nextTick(() => {$refs.filterSubmit.click()}); showInput = false" />
+      <!-- 关闭按钮 -->
+      <button @click="showInput = false" class="ml-2 p-2 text-[#9ca3af] hover:text-[#4b5563]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+          class="w-3.5 h-3.5 secondary-svg">
+          <path fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- 筛选 -->
+  <div x-data="{ open: false, activeTab: 'status' }" class="relative">
+    <!-- 按钮 -->
+    <button @click="open = !open"
+      class="flex items-center px-4 py-2 text-base font-semibold text-gray-600 bg-gray-50 rounded-lg border border-gray-300 shadow-sm transition hover:bg-gray-50">
+      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path
+          d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 13.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-3.586L3.293 6.707A1 1 0 013 6V4z"
+          stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="ml-2">筛选</span>
+      <svg :class="{'rotate-180': open}" class="ml-2 w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+        stroke-width="2" viewBox="0 0 24 24">
+        <path d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    <!-- 下拉浮层 -->
+    <div x-show="open" @click.away="open = false" x-transition
+      class="absolute left-0 top-full z-50 p-6 mt-2 w-full bg-white rounded-lg border border-gray-200 shadow-lg"
+      style="min-width: 600px;">
+      <!-- 标签导航 -->
+      <div class="flex flex-wrap gap-2 mb-4 font-semibold text-blue-800">
+        <button class="px-2 py-1 rounded hover:bg-blue-100"
+          :class="activeTab === 'status' ? 'bg-blue-600 text-white' : ''" @click="activeTab = 'status'">状态</button>
+        <button class="px-2 py-1 rounded hover:bg-blue-100"
+          :class="activeTab === 'board' ? 'bg-blue-600 text-white' : ''" @click="activeTab = 'board'">board</button>
+      </div>
+      <!-- 内容区 -->
+      <div>
+        <div x-show="activeTab === 'status'">
+          <div class="grid grid-cols-3 gap-4">
+            <div @click="status = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="status === '' ? 'text-primary' : ''">所有状态</div>
+            <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="status === 'inbox' ? 'text-primary' : ''">待开发评审</div>
+            <div :class="status === 'planned' ? 'text-primary' : ''"
+              @click="status = 'planned'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">计划中</div>
+            <div :class="status === 'in_progress' ? 'text-primary' : ''"
+              @click="status = 'in_progress'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">进行中</div>
+            <div :class="status === 'completed' ? 'text-primary' : ''"
+              @click="status = 'completed'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已完成</div>
+            <div :class="status === 'duplicate' ? 'text-primary' : ''"
+              @click="status = 'duplicate'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">重复</div>
+            <div :class="status === 'rejected' ? 'text-primary' : ''"
+              @click="status = 'rejected'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已拒绝</div>
+          </div>
+        </div>
+        <div x-show="activeTab === 'board'">
+          <div class="grid grid-cols-3 gap-4">
+            <div @click="board = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="board === '' ? 'text-primary' : ''">所有板块</div>
+            <div @click="board = 'feature_request'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="board === 'feature_request' ? 'text-primary' : ''">💡 功能需求</div>
+            <div @click="board = 'bug'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="board === 'bug' ? 'text-primary' : ''">🐛 BUG报告</div>
+            <div @click="board = 'task'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="board === 'task' ? 'text-primary' : ''">✨ 细节优化</div>
+            <div @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              :class="board === 'question' ? 'text-primary' : ''">问题咨询</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 最新按钮 -->
+  <button
+    class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] text-[#4b5563] font-semibold text-base shadow-sm bg-gray-50 hover:bg-gray-50 transition"
+    :class="sort === '-created_at' ? 'bg-white' : ''"
+    @click="sort = '-created_at';  $nextTick(() => {$nextTick(() => {$refs.filterSubmit.click()})})">
+    <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    最新
+  </button>
+  <!-- 热门按钮 -->
+  <button
+    class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-gray-50 text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition"
+    :class="sort === '-views_count' ? 'bg-white' : ''"
+    @click="sort = '-views_count'; $nextTick(() => {$nextTick(() => {$refs.filterSubmit.click()})})">
+    <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    热门
+  </button>
+</div>

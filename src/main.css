@@ -11,6 +11,7 @@
 @tailwind components;
 @tailwind utilities;
 @config '../tailwind.config.js';
+@plugin "daisyui";
 
 
 /* generic css */
@@ -87,3 +88,4 @@ body.asleep #screen {
 .popper-box {
   @apply bg-white
 }
+

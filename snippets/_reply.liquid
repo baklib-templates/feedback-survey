@@ -75,7 +75,7 @@
           </svg>
           回复
         </button>
-        {% if reply.author.creator? %}
+        {% if reply.author.current_user_creator? %}
         {% form_tag 'reply', reply, method: 'delete' %}
         <input value="destroy_reply_success" autocomplete="off" type="hidden" name="return_template_name">
         <button

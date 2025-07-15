@@ -268,6 +268,7 @@
 "type": "checkbox",
 "label": "是否置顶",
 "info": "置顶内容会显示在列表的最上面",
+"queryable": true,
 "default": false
 },
 {
@@ -275,31 +276,31 @@
 "type": "select",
 "label": "状态",
 "info": "状态",
-"default": "Awaiting Dev Review",
+"queryable": true,
 "choices": [
 {
 "label": "待开发评审",
-"value": "Inbox"
+"value": "inbox"
 },
 {
 "label": "计划中",
-"value": "Planned"
+"value": "planned"
 },
 {
 "label": "进行中",
-"value": "In Progress"
+"value": "in_progress"
 },
 {
 "label": "已完成",
-"value": "Completed"
+"value": "completed"
 },
 {
 "label": "重复",
-"value": "Duplicate"
+"value": "duplicate"
 },
 {
 "label": "已拒绝",
-"value": "Rejected"
+"value": "rejected"
 }
 ]},
 {
@@ -307,23 +308,23 @@
 "type": "select",
 "label": "Board",
 "info": "Board",
-"default": "💡 Feature Request",
+"queryable": true,
 "choices": [
 {
 "label": "💡 功能需求",
-"value": "Feature Request"
+"value": "feature_request"
 },
 {
 "label": "🐛 BUG报告",
-"value": "Bug"
+"value": "bug"
 },
 {
 "label": "小改进",
-"value": "Task"
+"value": "task"
 },
 {
 "label": "问题咨询",
-"value": "问题咨询"
+"value": "question"
 }
 ]
 }
@@ -331,6 +332,6 @@
 "user_creatable": true,
 "user_editable": true,
 "user_deletable": true,
-"user_permitted_attributes": ["title", "content"]
+"user_permitted_attributes": ["title", "content", "status", "board"]
 }
 {% endschema %}
