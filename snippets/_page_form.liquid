@@ -4,7 +4,7 @@
   <input value="{{ site.settings.is_allow_published }}" autocomplete="off" type="hidden" name="page[published]">
   <input value="" autocomplete="off" type="hidden" name="page[template_variables][status]" x-model="status">
   <input value="" autocomplete="off" type="hidden" name="page[template_variables][board]" x-model="board">
-  <input type="checkbox" name="page[template_variables][pinned]" value="false" class="hidden"/>
+  <input type="hidden" name="page[template_variables][pinned]" value="false" />
   {%# 提示 %}
 </div>
 <div class="flex justify-between items-center px-4 pt-4 pb-2">
