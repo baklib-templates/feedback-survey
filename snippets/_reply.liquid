@@ -101,7 +101,7 @@
 
   <!-- 回复评论 -->
   {% assign replies = reply.replies %}
-  <ul class="ml-6 space-x-2.5 w-full sm:ml-7" id="answer_{{ reply.id }}_replies_list">
+  <ul class="pl-6 space-x-2.5 w-full sm:pl-7" id="answer_{{ reply.id }}_replies_list">
     {% for reply in replies %}
     {% render 'reply', reply: reply %}
     {% endfor %}

@@ -1,4 +1,4 @@
-{% assign pages = site.pages %}
+{% assign pages = page.parent.children %}
 {% query related_pages from pages %}
 {
 "q": "{{ page.settings.title }}",
@@ -43,22 +43,18 @@
               </div>
             {% endif %}
 
-            <div class="flex items-start w-full">
-              <div class="w-full">
-                <div class="flex overflow-hidden gap-3 justify-between items-start pb-3 w-full outline-none dark:outline-none focus:outline-none dark:focus:outline-none">
-                    <h1 class="w-full text-lg font-semibold text-gray-800 dark:text-white content line-clamp-5">
-                      {{ page.settings.title }}</h1>
-                  </div>
-                <div
-                  class="text-[15px]  content  text-gray-600 dark:text-foreground max-h-[602px] h-full overflow-auto flow-root pt-1 ProseMirror prose sm:prose-base lg:prose-lg focus:outline-none">
-                  {{ page.settings.content }}
-                </div>
+            <div class="w-full">
+              <h1 class="pb-3 w-full text-lg font-semibold text-gray-800 dark:text-white content line-clamp-5">
+                {{ page.settings.title }}</h1>
+              <div
+                class="text-[15px]  content  text-gray-600 dark:text-foreground max-h-[602px] h-full overflow-auto flow-root pt-1 ProseMirror prose sm:prose-base lg:prose-lg focus:outline-none">
+                {{ page.settings.content }}
               </div>
             </div>
 
             <div class="pt-4 sm:pt-8"></div>
             <div class="mt-3">
-              <div class="relative z-50 bg-white rounded-md dark:bg-card"><button tabindex="-1"
+              <div class="relative z-50 bg-white rounded-md dark:bg-card"><button
                   class="flex justify-between items-center p-2 px-3 w-full rounded-md shadow-sm cursor-pointer dashboard-secondary secondary-raised-card dark:hover:border-border dark:hover:bg-border/60 main-transition">
                   <p class="flex items-center text-sm font-medium"><svg xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="mr-1.5 h-6 secondary-svg">
@@ -78,15 +74,14 @@
               {% assign color2 = 'rgb(244, 114, 182)' %}
               <div class="pt-0.5 -mt-1 rounded-b-lg border border-t-0 rounded-x-lg">
                 {% for similar_page in related_pages %}
-                <div class="flex items-center px-0.5 py-0.5 mx-1.5 mt-2.5 text-sm rounded-md group">
-                  <a target="_blank" rel="noreferrer"
+                <div class="flex items-center px-0.5 py-0.5 mx-1.5 mt-2.5 text-sm rounded-md group"     data-controller="dialog-fetch"
+                data-dialog-fetch-url-value="{{ similar_page.path }}">
+                  <a data-action="click->dialog-fetch#openDialog"
                     class="flex gap-1 items-start px-2.5 py-2 mr-2 w-full font-medium text-gray-600 rounded-md dark:text-foreground main-transition hover:bg-gray-100/40 dark:hover:bg-border/50"
-                    href="/p/filtering-by-your-liked-model">
-                    <div class="mt-[7px]">
+                    >
                       <div
-                        class="flex-shrink-0 mr-2 w-1.5 h-1.5 rounded-full bg-background-accent/60 dark:bg-gray-200/50"
+                        class="mt-[7px] flex-shrink-0 mr-2 w-1.5 h-1.5 rounded-full bg-background-accent/60 dark:bg-gray-200/50"
                         style="background-color: {% cycle color1, color2 %};"></div>
-                    </div>
                     <div>
                       <div class="flex gap-1.5 items-center w-full cursor-pointer"><span
                           class="font-medium text-left line-clamp-1"> {{ similar_page.settings.title }} </span>
@@ -153,7 +148,7 @@
                   </svg>
                 </button>
               </div>
-              <div class="grid grid-cols-5 gap-y-4 items-center p-4 border-b dashboard-border">
+              <div class="grid grid-cols-5 gap-y-4 items-center p-4 border-b dashboard-border" x-data="{ status: '', board: '', board_name: '{{ page.settings.board}}', status_name:'{{ page.settings.status}}' }">
                 <div class="col-span-2"><span class="font-medium">投票</span></div>
                 <div class="col-span-3">
                   <div class="flex items-center"
@@ -189,6 +184,10 @@
                     </div>
                   </div>
                 </div>
+
+                {% if page.author.current_user_creator? %}
+                  {% render 'edit_form', page: page %}
+                {% else %}
                 <div class="col-span-2"><span class="font-medium">状态</span></div>
                 <div class="overflow-hidden col-span-3 p-1.5 -m-1.5">
                   <div class="flex items-center" style="gap: 0px;">
@@ -208,6 +207,7 @@
                     </div>
                   </div>
                 </div>
+                {% endif %}
               </div>
             </div>
             <div class="grid grid-cols-5 gap-y-4 items-center p-4">
@@ -223,10 +223,9 @@
                     class="flex overflow-hidden relative flex-shrink-0 justify-center items-center w-7 h-7 rounded-full">
                     <div class="absolute inset-0 bg-gray-100/30 dark:bg-secondary/70"></div><img
                       class="object-cover z-10 w-full h-full rounded-full"
-                      src="https://fb-usercontent.fra1.cdn.digitaloceanspaces.com/avatar-e78d23d4-dff9-43d3-a804-6e5368cf19fe.png"
-                      style="border-radius: 100%;">
+                      src="{{ page.author.avatar_url |  default: avatar_url }}"
+                    >
                   </div>
-                  <div class="absolute top-0 right-0 z-10" data-state="closed"></div>
                 </div>
                 <p class="ml-2 font-medium truncate dark:font-semibold">{{ page.author.name }} </p>
               </div>
@@ -264,7 +263,7 @@
 "label": "页面标签"
 },
 {
-"id": "planned",
+"id": "pinned",
 "type": "checkbox",
 "label": "是否置顶",
 "info": "置顶内容会显示在列表的最上面",
@@ -279,7 +278,7 @@
 "queryable": true,
 "choices": [
 {
-"label": "待开发评审",
+"label": "待处理",
 "value": "inbox"
 },
 {
@@ -293,14 +292,6 @@
 {
 "label": "已完成",
 "value": "completed"
-},
-{
-"label": "重复",
-"value": "duplicate"
-},
-{
-"label": "已拒绝",
-"value": "rejected"
 }
 ]},
 {
@@ -319,11 +310,11 @@
 "value": "bug"
 },
 {
-"label": "小改进",
+"label": "✨ 细节优化",
 "value": "task"
 },
 {
-"label": "问题咨询",
+"label": "❓ 问题咨询",
 "value": "question"
 }
 ]
@@ -332,6 +323,6 @@
 "user_creatable": true,
 "user_editable": true,
 "user_deletable": true,
-"user_permitted_attributes": ["title", "content", "status", "board"]
+"user_permitted_attributes": ["title", "content", "status", "board", "pinned"]
 }
 {% endschema %}

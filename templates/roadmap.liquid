@@ -2,6 +2,19 @@
 {% assign arr = "inbox,planned,in_progress, completed" | split: "," %}
 
 <body class="bg-[#f7f8fa] min-h-screen">
+  {% assign order_by = params.sort | default: '-created_at' %}
+  {% if order_by %}
+  {% assign pages = pages | order_by: order_by %}
+  {% endif %}
+
+  <!-- 通过 search 对 pages1 结果进行全文搜索, 并渲染结果 -->
+  {% search pages, keywords: params.q %}
+  {% assign pages_size = search.pages | size | plus: 0 %}
+  {% if pages_size > 0 %}
+  {% assign pages = search.pages %}
+  {% endif %}
+  {% endsearch %}
+
   <!-- Main Title -->
   <div class="flex justify-between items-center px-6 mx-auto mt-8 mb-6 max-w-7xl">
     <!-- 标题 -->
@@ -14,50 +27,57 @@
   <div class="grid grid-cols-1 gap-6 px-6 py-8 mx-auto max-w-8xl md:grid-cols-2 lg:grid-cols-4">
     <!-- Inbox Column -->
     {% for status in arr %}
-    {% query pages1 from pages %}
-    {
-    "where": {
-    "settings.templates/page.liquid:status_eq": status
-    }
-    }
-    {% endquery %}
-    <div
-      class="relative pb-4 md:mr-4 md:mb-0 mb-3  w-full md:min-w-[328px] md:flex-shrink-0 md:flex-1 h-full basis-full border-gray-100/50 dark:border-border/60">
-      <div class="absolute top-0.5 bottom-0 right-0 -left-1.5 bg-gray-50/[70%] dark:bg-darker-bg/[13%] rounded-lg">
-      </div>
-      <div class="flex sticky top-0 z-10 justify-between items-center py-3 mx-1 backdrop-filter">
-        <p
-          class="font-semibold pointer-events-none max-w-[265px] px-2 py-1 rounded-md border flex text-xs items-center hover:shadow hover:bg-blue-100 hover:shadow-blue-200/40 dark:hover:shadow-blue-700/20 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 hover:border-blue-200 dark:text-blue-500  dark:border-blue-500/10 dark:hover:border-blue-500/10 border-blue-100 {% cycle 'roadmap-color': 'bg-blue-50 text-blue-600', 'bg-purple-50 text-purple-600', 'bg-blue-50 text-blue-600', 'bg-green-100/80 text-green-600' %}">
-          <span class="inline-flex items-center truncate first-letter:uppercase">{{ status }}</span>
-        </p>
-        <div class="flex gap-2 items-center mr-1"><code
-            class="text-xs !font-semibold bg-white border border-gray-100/50 dark:border-border/60 dark:bg-secondary/60 text-foreground/80 dark:text-foreground/60">{{ pages1 | size }}</code>
+      {% assign pages1 = '' %}
+      {% assign sts = params.status | blank? %}
+      {% if sts or params.status == status %}
+        {% query filter_query from pages %}
+          {
+          "where": {
+          "settings.templates/page.liquid:status_eq": status,
+          "settings.templates/page.liquid:board_eq": "{{ params.board }}"
+          }
+        }
+        {% endquery %}
+        {% assign pages1 = filter_query %}
+      {% endif %}
+      <div
+        class="relative pb-4 md:mr-4 md:mb-0 mb-3  w-full md:min-w-[328px] md:flex-shrink-0 md:flex-1 h-full basis-full border-gray-100/50 dark:border-border/60">
+        <div class="absolute top-0.5 bottom-0 right-0 -left-1.5 bg-gray-50/[70%] dark:bg-darker-bg/[13%] rounded-lg">
         </div>
-      </div>
-      <div class="relative">
-        <div class="">
-          <div class="relative custom-scrollbar sm:overflow-y-auto sm:h-[60vh]">
-            {% for page in pages1 %}
-            {% render 'roadmap/card', page: page %}
-            {% endfor %}
-            <div class="mt-5 sm:mt-8">
-              <div class="sm:hidden">
-                <div class="px-1 -mt-3"><button class="dashboard-secondary">Load more</button></div>
-              </div>
-              <div class="hidden sm:block">
-                <div>
+        <div class="flex sticky top-0 justify-between items-center py-3 mx-1 backdrop-filter">
+          <p
+            class="font-semibold pointer-events-none max-w-[265px] px-2 py-1 rounded-md border flex text-xs items-center hover:shadow hover:bg-blue-100 hover:shadow-blue-200/40 dark:hover:shadow-blue-700/20 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 hover:border-blue-200 dark:text-blue-500  dark:border-blue-500/10 dark:hover:border-blue-500/10 border-blue-100 {% cycle 'roadmap-color': 'bg-blue-50 text-blue-600', 'bg-purple-50 text-purple-600', 'bg-blue-50 text-blue-600', 'bg-green-100/80 text-green-600' %}">
+            <span class="inline-flex items-center truncate first-letter:uppercase">{{ status }}</span>
+          </p>
+          <div class="flex gap-2 items-center mr-1"><code
+              class="text-xs !font-semibold bg-white border border-gray-100/50 dark:border-border/60 dark:bg-secondary/60 text-foreground/80 dark:text-foreground/60">{{ pages1 | size }}</code>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="">
+            <div class="relative custom-scrollbar sm:overflow-y-auto sm:h-[60vh]">
+              {% for page in pages1 %}
+              {% render 'roadmap/card', page: page %}
+              {% endfor %}
+              <div class="mt-5 sm:mt-8">
+                <div class="sm:hidden">
+                  <div class="px-1 -mt-3"><button class="dashboard-secondary">Load more</button></div>
+                </div>
+                <div class="hidden sm:block">
                   <div>
-                    <div class="flex justify-center items-center pb-7 mt-4 text-gray-200 dark:text-foreground/60">
-                      <div class="w-6 h-6 secondary-svg"><svg class="inherit-width inherit-height"
-                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                          viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"
-                          style="max-height: 28px; max-width: 28px;">
-                          <circle cx="50" cy="50" r="32" stroke-width="8" stroke="currentColor"
-                            stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
-                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite"
-                              dur="1.075268817204301s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
-                          </circle>
-                        </svg></div>
+                    <div>
+                      <div class="flex justify-center items-center pb-7 mt-4 text-gray-200 dark:text-foreground/60">
+                        <div class="w-6 h-6 secondary-svg"><svg class="inherit-width inherit-height"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"
+                            style="max-height: 28px; max-width: 28px;">
+                            <circle cx="50" cy="50" r="32" stroke-width="8" stroke="currentColor"
+                              stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
+                              <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite"
+                                dur="1.075268817204301s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                            </circle>
+                          </svg></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -66,8 +86,10 @@
           </div>
         </div>
       </div>
-    </div>
     {% endfor %}
+  </div>
+  <div aria-roledescription="dialog"
+    id="headlessui-dialog" role="dialog" aria-modal="true" data-headlessui-state="open">
   </div>
 </body>
 

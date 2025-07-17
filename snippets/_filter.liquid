@@ -95,8 +95,7 @@
         x-show="open"
         @click.away="open = false"
         x-transition
-        class="absolute left-0 top-full z-50 p-6 mt-2 w-full bg-white rounded-lg border border-gray-200 shadow-lg"
-        style="min-width: 600px;"
+        class="absolute left-0 top-full z-50 p-6 mt-2 w-96 bg-white rounded-lg border border-gray-200 shadow-lg"
       >
         <!-- 标签导航 -->
         <div class="flex flex-wrap gap-2 mb-4 font-semibold text-blue-800">
@@ -116,12 +115,10 @@
           <div x-show="activeTab === 'status'">
             <div class="grid grid-cols-3 gap-4">
                 <div @click="status = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="status === '' ? 'text-primary' : ''">所有状态</div>
-                <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="status === 'inbox' ? 'text-primary' : ''">待开发评审</div>
+                <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="status === 'inbox' ? 'text-primary' : ''">待处理</div>
                 <div :class="status === 'planned' ? 'text-primary' : ''" @click="status = 'planned'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">计划中</div>
                 <div :class="status === 'in_progress' ? 'text-primary' : ''" @click="status = 'in_progress'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">进行中</div>
                 <div :class="status === 'completed' ? 'text-primary' : ''" @click="status = 'completed'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已完成</div>
-                <div :class="status === 'duplicate' ? 'text-primary' : ''" @click="status = 'duplicate'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">重复</div>
-                <div :class="status === 'rejected' ? 'text-primary' : ''" @click="status = 'rejected'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已拒绝</div>
             </div>
           </div>
           <div x-show="activeTab === 'board'">
@@ -130,7 +127,7 @@
                 <div @click="board = 'feature_request'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'feature_request' ? 'text-primary' : ''">💡 功能需求</div>
                 <div @click="board = 'bug'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'bug' ? 'text-primary' : ''">🐛 BUG报告</div>
                 <div @click="board = 'task'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'task' ? 'text-primary' : ''">✨ 细节优化</div>
-                <div @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'question' ? 'text-primary' : ''">问题咨询</div>
+                <div @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'question' ? 'text-primary' : ''">❓ 问题咨询</div>
             </div>
           </div>
         </div>
@@ -138,16 +135,30 @@
     </div>
 
     <!-- 创建新功能按钮 -->
-    <button
-      class="flex items-center px-6 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow transition hover:bg-blue-700"
-      data-controller="dialog-fetch"
-      data-dialog-fetch-url-value="/s/new"
-      data-action="click->dialog-fetch#openDialog">
-      <svg class="mr-2 w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      提交新功能建议
-    </button>
+    {% if current_user %}
+      <button
+        class="flex items-center px-6 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow transition hover:bg-blue-700"
+        data-controller="dialog-fetch"
+        data-dialog-fetch-url-value="/s/new"
+        data-action="click->dialog-fetch#openDialog">
+        <svg class="mr-2 w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        提交新功能建议
+      </button>
+    {% else %}
+      {% form_tag 'sign_in_with_baklib' %}
+        <button
+          class="flex items-center px-6 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow transition hover:bg-blue-700"
+        >
+          <svg class="mr-2 w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v8M8 12h8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          提交新功能建议
+        </button>
+      {% endform_tag %}
+    {% endif %}
   </div>
 </div>

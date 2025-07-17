@@ -12,11 +12,21 @@
       {% endif %}
 
       <!-- 通过 query进行动态字段过滤数据 -->
+      {% query pinned_pages from pages %}
+      {
+        "where": {
+          "settings.templates/page.liquid:status_eq": "{{ params.status }}",
+          "settings.templates/page.liquid:board_eq": "{{ params.board }}",
+          "settings.templates/page.liquid:pinned_eq": "true"
+        }
+      }
+      {% endquery %}
       {% query pages from pages %}
       {
         "where": {
           "settings.templates/page.liquid:status_eq": "{{ params.status }}",
-          "settings.templates/page.liquid:board_eq": "{{ params.board }}"
+          "settings.templates/page.liquid:board_eq": "{{ params.board }}",
+          "settings.templates/page.liquid:pinned_eq": "false"
         }
       }
       {% endquery %}
@@ -45,6 +55,9 @@
       {% render 'filter' %}
       <!-- Feedback List Items -->
       <div class="mt-4 w-full border divide-y dark:divide-border divide-gray-100/60 sm:rounded-lg">
+        {% for page in pinned_pages %}
+          {% render 'page', page: page %}
+        {% endfor %}
         {% paginate_tag pages, per: 12 %}
           {% for page in pages %}
             {% render 'page', page: page %}

@@ -60,8 +60,8 @@
 
     <!-- 下拉浮层 -->
     <div x-show="open" @click.away="open = false" x-transition
-      class="absolute left-0 top-full z-50 p-6 mt-2 w-full bg-white rounded-lg border border-gray-200 shadow-lg"
-      style="min-width: 600px;">
+      class="absolute left-0 top-full z-50 p-6 mt-2 w-96 bg-white rounded-lg border border-gray-200 shadow-lg"
+      >
       <!-- 标签导航 -->
       <div class="flex flex-wrap gap-2 mb-4 font-semibold text-blue-800">
         <button class="px-2 py-1 rounded hover:bg-blue-100"
@@ -76,17 +76,13 @@
             <div @click="status = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
               :class="status === '' ? 'text-primary' : ''">所有状态</div>
             <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
-              :class="status === 'inbox' ? 'text-primary' : ''">待开发评审</div>
+              :class="status === 'inbox' ? 'text-primary' : ''">待处理</div>
             <div :class="status === 'planned' ? 'text-primary' : ''"
               @click="status = 'planned'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">计划中</div>
             <div :class="status === 'in_progress' ? 'text-primary' : ''"
               @click="status = 'in_progress'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">进行中</div>
             <div :class="status === 'completed' ? 'text-primary' : ''"
               @click="status = 'completed'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已完成</div>
-            <div :class="status === 'duplicate' ? 'text-primary' : ''"
-              @click="status = 'duplicate'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">重复</div>
-            <div :class="status === 'rejected' ? 'text-primary' : ''"
-              @click="status = 'rejected'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已拒绝</div>
           </div>
         </div>
         <div x-show="activeTab === 'board'">
@@ -100,7 +96,7 @@
             <div @click="board = 'task'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
               :class="board === 'task' ? 'text-primary' : ''">✨ 细节优化</div>
             <div @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
-              :class="board === 'question' ? 'text-primary' : ''">问题咨询</div>
+              :class="board === 'question' ? 'text-primary' : ''">❓ 问题咨询</div>
           </div>
         </div>
       </div>
@@ -120,11 +116,11 @@
   <!-- 热门按钮 -->
   <button
     class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-gray-50 text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition"
-    :class="sort === '-views_count' ? 'bg-white' : ''"
-    @click="sort = '-views_count'; $nextTick(() => {$nextTick(() => {$refs.filterSubmit.click()})})">
+    :class="sort === '-feedbacks_count' ? 'bg-white' : ''"
+    @click="sort = '-feedbacks_count'; $nextTick(() => {$nextTick(() => {$refs.filterSubmit.click()})})">
     <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
-    热门
+    投票
   </button>
 </div>

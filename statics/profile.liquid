@@ -1,0 +1,25 @@
+{% assign pages = current_user.pages | order_by: '-published_at' %}
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Main Content -->
+  <main class="container px-4 py-8 mx-auto">
+    <!-- Feedback List -->
+    <div class="flex justify-between items-center px-6 mx-auto mt-8 mb-6 max-w-7xl">
+      <!-- 标题 -->
+      <h1 class="text-3xl font-bold text-[#384062]">发布帖子</h1>
+    </div>
+    <div id="feedback-list" class="flex-1">
+      <!-- Feedback List Items -->
+      <div class="mt-4 w-full border divide-y dark:divide-border divide-gray-100/60 sm:rounded-lg">
+        {% paginate_tag pages, per: 12 %}
+          {% for page in pages %}
+            {% render 'page', page: page %}
+          {% endfor %}
+        {% endpaginate_tag %}
+      </div>
+    </div>
+  </main>
+  <div aria-roledescription="dialog"
+    id="headlessui-dialog" role="dialog" aria-modal="true" data-headlessui-state="open">
+  </div>
+</body>

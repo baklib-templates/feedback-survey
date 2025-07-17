@@ -1,0 +1,68 @@
+{% form_tag 'edit_page', page, class: 'contents' %}
+
+<input value="" autocomplete="off" type="hidden" name="page[template_variables][status]" x-model="status">
+<input value="" autocomplete="off" type="hidden" name="page[template_variables][board]" x-model="board">
+<input value="update_page_success" autocomplete="off" type="hidden" name="return_template_name">
+<div class="col-span-2"><span class="font-medium">状态</span></div>
+<div data-controller="dropdown" class="relative col-span-3">
+  <button class="px-2 py-1 text-xs font-medium text-pink-600 bg-pink-50 rounded-md border border-pink-100 hover:shadow hover:bg-pink-100 hover:shadow-pink-200/40 dark:hover:shadow-pink-700/20 dark:bg-pink-500/10 dark:hover:bg-pink-500/20 hover:border-pink-200 dark:text-pink-500 dark:border-pink-500/10 dark:hover:border-pink-500/10"
+    type="button" data-action="dropdown#toggle click@window->dropdown#hide" x-text="status_name">
+  </button>
+
+  <div data-dropdown-target="menu"
+    class="absolute right-0 hidden min-w-[10rem] origin-top-right transform rounded-md border border-slate-150 bg-white px-2 py-1.5 font-inter shadow-lg transition dark:border-navy-500 dark:bg-navy-700 z-50">
+    <div class="flex flex-col space-y-2 w-full h-full rounded-md">
+      <button type="submit"
+        class="text-sm text-center cursor-pointer"
+        @click="status_name = '待处理';status='inbox'">待处理
+      </button>
+      <button type="submit"
+      @click="status_name = '计划中';status='planned'"
+        class="text-sm text-center cursor-pointer"
+        data-value="planned">计划中
+      </button>
+      <button type="submit"
+      @click="status_name = '处理中';status='in_progress'"
+        class="text-sm text-center cursor-pointer">处理中
+      </button>
+      <button type="submit"
+      @click="status_name = '已完成';status='completed'"
+        class="text-sm text-center cursor-pointer">已完成
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="col-span-2"><span class="font-medium">Board</span></div>
+<div data-controller="dropdown" class="relative col-span-3">
+  <button class="flex items-center px-2 py-1 text-xs font-medium truncate rounded-md border text-background-accent dark:text-foreground border-gray-100/50 bg-gray-50/50 dark:bg-secondary dark:border-border/70 dark:shadow-sm"
+    type="button" data-action="dropdown#toggle click@window->dropdown#hide" x-text="board_name">
+  </button>
+
+  <div data-dropdown-target="menu"
+    class="absolute right-0 hidden min-w-[10rem] origin-top-right transform rounded-md border border-slate-150 bg-white px-2 py-1.5 font-inter shadow-lg transition dark:border-navy-500 dark:bg-navy-700 z-50">
+    <div class="flex flex-col space-y-2 w-full h-full rounded-md">
+      <button type="submit"
+      @click="board_name = '💡 功能需求';board='feature_request'"
+        class="text-sm text-center cursor-pointer"
+      >💡 功能需求
+      </button>
+      <button type="submit"
+      @click="board_name = '🐛 BUG报告';board='bug'"
+        class="text-sm text-center cursor-pointer"
+      >🐛 BUG报告
+      </button>
+      <button type="submit"
+      @click="board_name = '✨ 细节优化';board='task'"
+        class="text-sm text-center cursor-pointer"
+      >✨ 细节优化
+      </button>
+      <button type="submit"
+      @click="board_name = '❓ 问题咨询';board='question'"
+        class="text-sm text-center cursor-pointer"
+      >❓ 问题咨询
+      </button>
+    </div>
+  </div>
+</div>
+{% endform_tag %}

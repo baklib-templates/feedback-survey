@@ -24,6 +24,10 @@ export default class extends Controller {
           // 3. 找到页面上已有的 editor 节点
           const editor = doc.querySelector('div.editor.editing');
           if (editor) {
+            debugger
+            // 移除带有 data-fullscreen-target="button" 的 div
+            const fullscreenDiv = editor.querySelector('button[data-fullscreen-target="button"]');
+            if (fullscreenDiv) fullscreenDiv.remove();
             editor.appendChild(toolbar);
           }
         }
@@ -45,18 +49,23 @@ export default class extends Controller {
         }
 
         // 关闭事件
-        modal.querySelector('[data-action="click->dialog-fetch#closeDialog"]').onclick = () => {
-          modal.removeAttribute('class');
-          // 移除所有 class
-          modal.innerHTML = "";           // 清空内容
-        };
+        modal.querySelectorAll('[data-action="click->dialog-fetch#closeDialog"]').forEach(btn => {
+          btn.onclick = () => {
+            modal.removeAttribute('class');
+            modal.innerHTML = ""; // 清空内容
+          };
+        });
       })
       .catch(error => console.error("Error loading dialog content:", error));
   }
 
   closeDialog(event) {
     // 关闭弹窗
-    event.target.closest('.fixed').remove();
+    const modal = this.modalTarget || event.target.closest('.modal'); // 你可以根据实际结构获取 modal
+    if (modal) {
+      modal.removeAttribute('class');
+      modal.innerHTML = ""; // 清空内容
+    }
   }
 }
 
