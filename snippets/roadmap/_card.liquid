@@ -1,7 +1,8 @@
 <div
   class="relative p-3 mr-2 mb-3 ml-1 min-w-0 bg-white rounded-lg border shadow-sm dark:ring-1 dark:ring-black/10 group hover:border-gray-100 hover:bg-gray-50 dark:shadow dark:bg-secondary/70 dark:hover:bg-secondary dark:border-border main-transition border-gray-100/60"     data-controller="dialog-fetch"
   data-dialog-fetch-url-value="{{ page.path }}">
-  <a class="absolute inset-0 rounded-lg" aria-hidden="true" data-action="click->dialog-fetch#openDialog" ></a>
+  <a class="hidden absolute inset-0 rounded-lg sm:block" aria-hidden="true" data-action="click->dialog-fetch#openDialog" ></a>
+  <a class="absolute inset-0 rounded-lg sm:hidden" href="{{ page.path }}" ></a>
   <div class=""><a
       class="overflow-hidden text-sm font-semibold text-gray-800 line-clamp-3 content dark:text-gray-100 group-hover:underline decoration-gray-100 dark:decoration-gray-500">{{
       page.settings.title }}</a>

@@ -8,7 +8,7 @@
     data-controller="dialog-fetch"
     data-dialog-fetch-url-value="{{ page.path }}"
     >
-        <a data-action="click->dialog-fetch#openDialog" class="overflow-auto py-4 pr-3 pl-4 my-auto w-full min-w-0 h-full rounded-md cursor-pointer sm:pl-5 sm:py-5">
+        <div  class="overflow-auto relative py-4 pr-3 pl-4 my-auto w-full min-w-0 h-full rounded-md cursor-pointer sm:pl-5 sm:py-5">
             <div class="relative">
                 {% if page.settings.pinned %}
                 <div class="flex absolute -right-2 -top-4 items-center p-1 rounded-md">
@@ -58,7 +58,9 @@
                     </div>
                 </div>
             </div>
-        </a>
+            <a class="hidden absolute inset-0 rounded-lg sm:block" aria-hidden="true" data-action="click->dialog-fetch#openDialog" ></a>
+            <a class="absolute inset-0 rounded-lg sm:hidden" href="{{ page.path }}" data-turbo-frame="_top"></a>
+        </div>
 
         <div x-data="{ posted_feedback: {{ page.visitor_posted_feedback | present? }}, feedback_count: {{ page | feedback_type_count: site.settings.feedback_useful_type }}  } "
             class="flex">
