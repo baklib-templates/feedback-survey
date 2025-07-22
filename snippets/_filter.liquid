@@ -108,26 +108,26 @@
             class="px-2 py-1 rounded hover:bg-blue-100"
             :class="activeTab === 'board' ? 'bg-blue-600 text-white' : ''"
             @click="activeTab = 'board'"
-          >board</button>
+          >板块</button>
         </div>
         <!-- 内容区 -->
         <div>
           <div x-show="activeTab === 'status'">
             <div class="grid grid-cols-3 gap-4">
-                <div @click="status = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="status === '' ? 'text-primary' : ''">所有状态</div>
-                <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="status === 'inbox' ? 'text-primary' : ''">待处理</div>
-                <div :class="status === 'planned' ? 'text-primary' : ''" @click="status = 'planned'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">计划中</div>
-                <div :class="status === 'in_progress' ? 'text-primary' : ''" @click="status = 'in_progress'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">进行中</div>
-                <div :class="status === 'completed' ? 'text-primary' : ''" @click="status = 'completed'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已完成</div>
+                <div @click="status = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false" class="cursor-pointer" :class="status === '' ? 'text-primary' : ''">所有状态</div>
+                <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" class="cursor-pointer" :class="status === 'inbox' ? 'text-primary' : ''">待处理</div>
+                <div class="cursor-pointer"  :class="status === 'planned' ? 'text-primary' : ''" @click="status = 'planned'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">计划中</div>
+                <div class="cursor-pointer"  :class="status === 'in_progress' ? 'text-primary' : ''" @click="status = 'in_progress'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">进行中</div>
+                <div class="cursor-pointer"  :class="status === 'completed' ? 'text-primary' : ''" @click="status = 'completed'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已完成</div>
             </div>
           </div>
           <div x-show="activeTab === 'board'">
             <div class="grid grid-cols-3 gap-4">
-                <div @click="board = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === '' ? 'text-primary' : ''">所有板块</div>
-                <div @click="board = 'feature_request'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'feature_request' ? 'text-primary' : ''">💡 功能需求</div>
-                <div @click="board = 'bug'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'bug' ? 'text-primary' : ''">🐛 BUG报告</div>
-                <div @click="board = 'task'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'task' ? 'text-primary' : ''">✨ 细节优化</div>
-                <div @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'question' ? 'text-primary' : ''">❓ 问题咨询</div>
+                <div class="cursor-pointer"  @click="board = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === '' ? 'text-primary' : ''">所有板块</div>
+                <div class="cursor-pointer"  @click="board = 'feature_request'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'feature_request' ? 'text-primary' : ''">💡 功能需求</div>
+                <div class="cursor-pointer"  @click="board = 'bug'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'bug' ? 'text-primary' : ''">🐛 BUG报告</div>
+                <div class="cursor-pointer"  @click="board = 'task'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'task' ? 'text-primary' : ''">✨ 细节优化</div>
+                <div class="cursor-pointer"  @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false" :class="board === 'question' ? 'text-primary' : ''">❓ 问题咨询</div>
             </div>
           </div>
         </div>
