@@ -9,6 +9,7 @@
 }
 {% endquery %}
 {% assign related_pages = related_pages | limit: 2 %}
+{% assign avatar_url = 'https://api.dicebear.com/7.x/rings/svg?seed=' | append: page.author.id %}
 
 <div
   class="container relative z-50 mx-auto opacity-100 transition-transform ease-in-out transform scale-100 dark:shadow darker-dropdown-background sm:my-10 sm:rounded-lg">

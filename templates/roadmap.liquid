@@ -9,10 +9,10 @@
 
   <!-- 通过 search 对 pages1 结果进行全文搜索, 并渲染结果 -->
   {% search pages, keywords: params.q %}
-  {% assign pages_size = search.pages | size | plus: 0 %}
-  {% if pages_size > 0 %}
-  {% assign pages = search.pages %}
-  {% endif %}
+    {%  assign q_present = params.q | present?  %}
+    {% if q_present %}
+      {%  assign pages = search.pages %}
+    {% endif %}
   {% endsearch %}
 
   <!-- Main Title -->

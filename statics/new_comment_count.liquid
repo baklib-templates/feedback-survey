@@ -1,0 +1,18 @@
+{% layout false %}
+{% assign created_after = params.created_after %}
+{% assign comments = site.comments %}
+{% query items from comments %}
+    {
+      "where": {
+        "reply_to_user_id_eq": "{{ current_user.id }}",
+        "author_id_not_eq": "{{ current_user.id }}",
+        "created_at_gt": "{{ created_after }}"
+      }
+    }
+{% endquery %}
+
+{
+  "count": {{ items | size }}
+}
+
+

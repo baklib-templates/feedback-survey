@@ -1,26 +1,22 @@
-{% assign pages = site.pages['/'].children_in_list | order_by: '-published_at' %}
+{% assign pages = site.pages['/'].children_in_list  %}
 
-<body class="min-h-screen bg-gray-50">
   <!-- Main Content -->
+<div class="bg-gray-50">
   <main class="container flex flex-col gap-8 px-4 py-8 mx-auto md:flex-row">
     <!-- Feedback List -->
     <turbo-frame id="feedback-list" class="flex-1">
-
       {% assign order_by = params.sort |  default: '-created_at' %}
       {% if order_by %}
         {% assign pages = pages | order_by: order_by %}
       {% endif %}
-
-      <!-- 通过 query进行动态字段过滤数据 -->
-      {% query pinned_pages from pages %}
-      {
-        "where": {
-          "settings.templates/page.liquid:status_eq": "{{ params.status }}",
-          "settings.templates/page.liquid:board_eq": "{{ params.board }}",
-          "settings.templates/page.liquid:pinned_eq": "true"
-        }
-      }
-      {% endquery %}
+      <!-- 通过 search 对 pages1 结果进行全文搜索, 并渲染结果 -->
+      {% search pages, keywords: params.q %}
+        {%  assign q_present = params.q | present?  %}
+        {% if q_present %}
+          {%  assign pages = search.pages %}
+        {% endif %}
+      {% endsearch %}
+      {%  assign query_pages =  pages %}
       {% query pages from pages %}
       {
         "where": {
@@ -31,15 +27,6 @@
       }
       {% endquery %}
 
-      <!-- 通过 search 对 pages1 结果进行全文搜索, 并渲染结果 -->
-      {% search pages, keywords: params.q %}
-        {%  assign extends_size = search.extend | size  %}
-        {%  assign pages_size = search.pages | size  %}
-        {% assign total_size = extends_size | plus: pages_size %}
-        {% if total_size > 0 %}
-          {%  assign pages = search.pages %}
-        {% endif %}
-      {% endsearch %}
       <!-- Top bar -->
       <div class="flex flex-col gap-3 mb-4 md:flex-row md:items-center md:justify-between">
         <div
@@ -55,15 +42,27 @@
       {% render 'filter' %}
       <!-- Feedback List Items -->
       <div class="mt-4 w-full border divide-y dark:divide-border divide-gray-100/60 sm:rounded-lg">
+      {% if params._page == '1' or params._page == nil  %}
+        {% query pinned_pages from query_pages %}
+        {
+          "where": {
+            "settings.templates/page.liquid:status_eq": "{{ params.status }}",
+            "settings.templates/page.liquid:board_eq": "{{ params.board }}",
+            "settings.templates/page.liquid:pinned_eq": "true"
+          }
+        }
+        {% endquery %}
         {% for page in pinned_pages %}
           {% render 'page', page: page %}
         {% endfor %}
+      {% endif %}
         {% paginate_tag pages, per: 12 %}
           {% for page in pages %}
             {% render 'page', page: page %}
           {% endfor %}
         {% endpaginate_tag %}
       </div>
+      {% render 'paginate', paginate: paginate %}
     </turbo-frame>
 
     <!-- Sidebar: Most Helpful -->
@@ -85,7 +84,9 @@
   <div aria-roledescription="dialog"
     id="headlessui-dialog" role="dialog" aria-modal="true" data-headlessui-state="open">
   </div>
-</body>
+</div>
+
+
 
 {% schema %}
 {
@@ -111,32 +112,6 @@
 "type": "tag_picker",
 "multiple": true,
 "label": "站点热门标签"
-},
-{
-"id": "text_color",
-"type": "color",
-"label": "Hero 文字颜色"
-},
-{
-"id": "bg_color",
-"label": "Hero 背景色",
-"type": "color_background"
-},
-{
-"id": "illustration_url",
-"type": "image_picker",
-"ratio": "16:9",
-"width": 400,
-"label": "Hero 背景插图（SVG）",
-"info": "虚幻背景SVG格式，参考："
-},
-{
-"id": "hero_url",
-"type": "image_picker",
-"ratio": "4:3",
-"width": 400,
-"label": "Hero Banner 图片（PNG）",
-"info": "PNG 透明背景格式，参考："
 }
 ]
 }

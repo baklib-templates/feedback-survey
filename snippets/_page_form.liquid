@@ -1,3 +1,4 @@
+{% assign avatar_url = 'https://api.dicebear.com/7.x/rings/svg?seed=' | append: current_user.id %}
 <div>
   <input value="page" autocomplete="off" type="hidden" name="page[template_name]">
   <input value="" autocomplete="off" type="hidden" name="page[template_style]">
@@ -15,7 +16,7 @@
       <div class="flex overflow-hidden relative flex-shrink-0 justify-center items-center w-7 h-7 rounded-full">
         <div class="absolute inset-0 bg-gray-100/30 dark:bg-secondary/70"></div><img
           class="object-cover z-10 w-full h-full rounded-full"
-          src="https://global.featurebase-attachments.com/c/static/0196fb25-0b28-7dd6-98bc-90a993f1beb8/3ab50f47yv.png">
+          src="{{ current_user.image |  default: avatar_url }}">
       </div>
     </button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -61,9 +62,9 @@
         clip-rule="evenodd"></path>
     </svg></div>
 </div>
-<div class="relative px-1 mt-1">
+<div class="relative px-1 my-1">
   <input name="page[template_variables][title]"
-    class="pl-4 text-base font-medium bg-transparent border-0 dark:text-white sm:text-lg dark:bg-transparent focus-within:outline-none focus-within:ring-0 dark:focus-within:outline-none"
+    class="pl-4 w-full text-base font-medium bg-transparent border-0 dark:text-white sm:text-lg dark:bg-transparent focus-within:outline-none focus-within:ring-0 dark:focus-within:outline-none"
     placeholder="您的帖子标题" value="" required>
 </div>
 <div class="px-1 mb-1">

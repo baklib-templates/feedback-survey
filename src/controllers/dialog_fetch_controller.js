@@ -26,8 +26,8 @@ export default class extends Controller {
           if (editor) {
             debugger
             // 移除带有 data-fullscreen-target="button" 的 div
-            const fullscreenDiv = editor.querySelector('button[data-fullscreen-target="button"]');
-            if (fullscreenDiv) fullscreenDiv.remove();
+            // const fullscreenDiv = editor.querySelector('button[data-fullscreen-target="button"]');
+            // if (fullscreenDiv) fullscreenDiv.remove();
             editor.appendChild(toolbar);
           }
         }
@@ -47,12 +47,14 @@ export default class extends Controller {
         }else {
           modal.innerHTML = doc.body.innerHTML;
         }
+        document.body.classList.add('overflow-hidden');
 
         // 关闭事件
         modal.querySelectorAll('[data-action="click->dialog-fetch#closeDialog"]').forEach(btn => {
           btn.onclick = () => {
             modal.removeAttribute('class');
             modal.innerHTML = ""; // 清空内容
+            document.body.classList.remove('overflow-hidden');
           };
         });
       })

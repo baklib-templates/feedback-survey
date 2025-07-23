@@ -63,7 +63,8 @@
               "template": "page",
               "settings":
               {
-                "content": "这是我的第1篇帖子内容"
+                "content": "这是我的第1篇帖子内容",
+                "pinned": false
               }
             },
             {
@@ -72,7 +73,8 @@
               "template": "page",
               "settings":
               {
-                "content": "这是我的第1篇帖子内容"
+                "content": "这是我的第1篇帖子内容",
+                "pinned": false
               }
             }
           ]
@@ -90,14 +92,6 @@
         "width": 150,
         "label": "站点LOGO",
         "info": "用在站点顶部的 LOGO"
-      },
-      {
-        "id": "default_avatar",
-        "type": "image_picker",
-        "ratio": "4:4",
-        "width": 100,
-        "label": "默认头像",
-        "info": "新注册用户未设置头像之前，显示该默认头像"
       },
       {
         "id": "is_allow_published",

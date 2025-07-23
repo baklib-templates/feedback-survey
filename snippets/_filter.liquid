@@ -24,13 +24,13 @@
     <!-- 热门按钮 -->
     <button
       class="flex items-center px-4 py-2 rounded-lg border border-[#d1d5db] bg-gray-50 text-[#4b5563] font-semibold text-base shadow-sm hover:bg-gray-50 transition"
-      :class="sort === '-views_count' ? 'bg-white' : ''"
-      @click="sort = '-views_count'; $nextTick(() => {$nextTick(() => {$refs.filterSubmit.click()})})"
+      :class="sort === '-feedbacks_count' ? 'bg-white' : ''"
+      @click="sort = '-feedbacks_count'; $nextTick(() => {$nextTick(() => {$refs.filterSubmit.click()})})"
     >
       <svg class="w-5 h-5 mr-2 text-[#9ca3af]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
-      热门
+      投票
     </button>
   </div>
   <div class="flex space-x-3">
@@ -56,7 +56,7 @@
         </svg>
         <input
           type="text"
-          placeholder="Search for posts"
+          placeholder="搜索..."
           class="flex-1 bg-transparent border-0 focus:outline-none focus:ring-0 focus:border-0 text-[#6b7280] placeholder-[#9ca3af] text-base"
           x-ref="searchInput"
           x-model="q"

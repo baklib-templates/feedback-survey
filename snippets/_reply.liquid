@@ -1,7 +1,8 @@
+{% assign avatar_url = 'https://api.dicebear.com/7.x/rings/svg?seed=' | append: reply.author.id %}
 <li class="relative w-full" id="reply_{{ reply.id }}">
   <div class="flex items-start space-x-2.5 w-full">
     <div class="overflow-hidden w-8 h-8 rounded-full">
-      <img class="object-cover z-10 w-full h-full rounded-full" src="{{ reply.author.avatar_url }}">
+      <img class="object-cover z-10 w-full h-full rounded-full" src="{{ reply.author.avatar_url |  default: avatar_url }}">
     </div>
     <div class="relative z-10 flex-1 w-full sm:pb-[24px] pb-[18px]"
       x-data="{open: false}">

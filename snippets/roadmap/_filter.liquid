@@ -26,7 +26,7 @@
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
-      <input type="text" placeholder="Search for posts"
+      <input type="text" placeholder="搜索..."
         class="flex-1 bg-transparent border-0 focus:outline-none focus:ring-0 focus:border-0 text-[#6b7280] placeholder-[#9ca3af] text-base"
         x-ref="searchInput" x-model="q"
         @keyup.enter="$nextTick(() => {$refs.filterSubmit.click()}); showInput = false" />
@@ -67,35 +67,45 @@
         <button class="px-2 py-1 rounded hover:bg-blue-100"
           :class="activeTab === 'status' ? 'bg-blue-600 text-white' : ''" @click="activeTab = 'status'">状态</button>
         <button class="px-2 py-1 rounded hover:bg-blue-100"
-          :class="activeTab === 'board' ? 'bg-blue-600 text-white' : ''" @click="activeTab = 'board'">board</button>
+          :class="activeTab === 'board' ? 'bg-blue-600 text-white' : ''" @click="activeTab = 'board'">看板</button>
       </div>
       <!-- 内容区 -->
       <div>
         <div x-show="activeTab === 'status'">
           <div class="grid grid-cols-3 gap-4">
             <div @click="status = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="status === '' ? 'text-primary' : ''">所有状态</div>
             <div @click="status = 'inbox'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="status === 'inbox' ? 'text-primary' : ''">待处理</div>
             <div :class="status === 'planned' ? 'text-primary' : ''"
+            class="cursor-pointer"
               @click="status = 'planned'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">计划中</div>
             <div :class="status === 'in_progress' ? 'text-primary' : ''"
+            class="cursor-pointer"
               @click="status = 'in_progress'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">进行中</div>
             <div :class="status === 'completed' ? 'text-primary' : ''"
+            class="cursor-pointer"
               @click="status = 'completed'; $nextTick(() => {$refs.filterSubmit.click()}); open = false">已完成</div>
           </div>
         </div>
         <div x-show="activeTab === 'board'">
           <div class="grid grid-cols-3 gap-4">
             <div @click="board = ''; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="board === '' ? 'text-primary' : ''">所有板块</div>
             <div @click="board = 'feature_request'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="board === 'feature_request' ? 'text-primary' : ''">💡 功能需求</div>
             <div @click="board = 'bug'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="board === 'bug' ? 'text-primary' : ''">🐛 BUG报告</div>
             <div @click="board = 'task'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="board === 'task' ? 'text-primary' : ''">✨ 细节优化</div>
             <div @click="board = 'question'; $nextTick(() => {$refs.filterSubmit.click()}); open = false"
+              class="cursor-pointer"
               :class="board === 'question' ? 'text-primary' : ''">❓ 问题咨询</div>
           </div>
         </div>

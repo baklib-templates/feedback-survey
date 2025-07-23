@@ -117,3 +117,9 @@ body.asleep #screen {
   display: none !important;
 }
 
+body.is-fullscreen #page_form {
+  height: 70vh !important;
+  width: 75% !important;
+  max-width: 80rem !important; /* 7xl 是 80rem */
+}
+
