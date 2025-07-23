@@ -149,6 +149,7 @@
       </button>
     {% else %}
       {% form_tag 'sign_in_with_baklib' %}
+        <input value="true" type="hidden" name="sign_up">
         <button
           class="flex items-center px-6 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow transition hover:bg-blue-700"
         >

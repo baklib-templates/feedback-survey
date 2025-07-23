@@ -6,7 +6,8 @@
       {
         "where": {
           "reply_to_user_id_eq": "{{ current_user.id }}",
-          "author_id_not_eq": "{{ current_user.id }}"
+          "author_id_not_eq": "{{ current_user.id }}",
+          "order_by": "-created_at"
         }
       }
   {% endquery %}
@@ -116,7 +117,7 @@
                 <div>
                     <div class="relative pr-0 w-full shadow-sm duration-75 ease-in sm:items-stretch hover:bg-gray-50/90 dark:hover:bg-border/30"
                     data-controller="dialog-fetch"
-                    data-dialog-fetch-url-value="{{  }}"
+                    data-dialog-fetch-url-value="{{ reply.target.path }}"
                     x-data="{open: false}"
                     >
                       <div class="flex p-4 space-x-3 rounded-lg border border-gray-100 transition hover:shadow-sm hover:bg-gray-50">
@@ -128,7 +129,7 @@
                               <div>
                                 <span class="font-semibold"> {{ reply.author.name }} </span>
                                 回复了你在
-                                <a class="text-blue-600 hover:underline" href="#">《{{ reply.target.settings.title }}》</a> 中的评论
+                                <a class="text-blue-600 hover:underline" href="{{ reply.target.path }}">《{{ reply.target.settings.title }}》</a> 中的评论
                               </div>
                               <span class="text-xs text-gray-400" title="2025-07-20 17:19"> {{ reply.created_at | time_ago }}前</span>
                             </div>
@@ -142,7 +143,7 @@
                               <div>
                                 <span class="font-semibold"> {{ reply.author.name }} </span>
                                 评论了你的帖子
-                                <a class="text-blue-600 hover:underline" href="#">《{{ reply.target.settings.title }}》</a>
+                                <a class="text-blue-600 hover:underline" href="{{ reply.target.path }}">《{{ reply.target.settings.title }}》</a>
                               </div>
                               <span class="text-xs text-gray-400" title="2025-07-20 17:19"> {{ reply.created_at | time_ago }}前</span>
                             </div>
@@ -214,7 +215,7 @@
                             {% assign root = reply %}
                           {% endif %}
 
-                          {% render 'reply_answer_form', root: root, parent: reply %}
+                          {% render 'profile/reply_answer_form', root: root, parent: reply %}
 
                         </div>
                       </div>

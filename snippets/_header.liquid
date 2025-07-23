@@ -129,22 +129,22 @@ updateNewReplyCount();
                 </svg>
                 个人资料
               </a>
-              <form method="post" action="/sign_out">
                 {% form_tag 'sign_out' %}
-                <button type="submit" class="flex items-center px-4 py-2 w-full text-sm text-left text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900">
-                  <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M17 16l4-4m0 0l-4-4m4 4H7"/>
-                    <path d="M3 12h4" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  退出登录
-                </button>
+                  <button type="submit" class="flex items-center px-4 py-2 w-full text-sm text-left text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900">
+                    <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path d="M17 16l4-4m0 0l-4-4m4 4H7"/>
+                      <path d="M3 12h4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    退出登录
+                  </button>
                 {% endform_tag %}
-              </form>
+
             </div>
           </div>
         </div>
       {% else %}
         {% form_tag 'sign_in_with_baklib' %}
+          <input value="true" type="hidden" name="sign_up">
           <button
           class="rounded-full border border-gray-200 bg-white px-6 py-2 font-semibold text-[#384062] shadow-sm transition hover:bg-gray-50">登录</button>
         {% endform_tag %}

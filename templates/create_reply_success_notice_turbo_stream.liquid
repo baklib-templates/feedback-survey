@@ -1,0 +1,20 @@
+{% layout none %}
+
+{%# 将新增评论添加至回复列表最上面 %}
+{%# 如果当前只有一条评论, 则直接替换列表, 以删除暂无评论的提示 %}
+<div id="toast-interactive" class="fixed top-10 left-1/2 z-50 p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow transform -translate-x-1/2 dark:bg-gray-800 dark:text-gray-400" role="alert" x-data="{ open: true }" x-show="open" x-init="setTimeout(() => { open = false }, 5000)" >
+    <div class="flex">
+        <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 rounded-lg text-primary bg-primary/10 dark:text-blue-300 dark:bg-primary">
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          <span class="sr-only">Error icon</span>
+        </div>
+        <div class="ml-3 text-sm font-normal">
+          你的回复已发布
+        </div>
+        <button type="button" class="inline-flex p-1.5 -mx-1.5 -my-1.5 ml-auto w-8 h-8 text-gray-400 bg-white rounded-lg hover:text-gray-900 focus:ring-2 focus:ring-gray-300 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-interactive" aria-label="Close" @click="open=false">
+            <span class="sr-only">Close</span>
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+    </div>
+</div>
+
