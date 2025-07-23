@@ -1,6 +1,6 @@
 {% if params.type == "post" %}
   {% assign items = current_user.pages | order_by: '-published_at' %}
-{% elsif params.type == "comment" %}
+{% elsif params.type == "comment" and current_user %}
 {% assign comments = site.comments %}
   {% query items from comments %}
       {
@@ -129,7 +129,8 @@
                               <div>
                                 <span class="font-semibold"> {{ reply.author.name }} </span>
                                 回复了你在
-                                <a class="text-blue-600 hover:underline" href="{{ reply.target.path }}">《{{ reply.target.settings.title }}》</a> 中的评论
+                                <a class="hidden text-blue-600 hover:underline sm:inline-block" data-action="click->dialog-fetch#openDialog" >《{{ reply.target.settings.title }}》</a>
+                                <a class="text-blue-600 hover:underline sm:hidden" href="{{ reply.target.path }}">《{{ reply.target.settings.title }}》</a> 中的评论
                               </div>
                               <span class="text-xs text-gray-400" title="2025-07-20 17:19"> {{ reply.created_at | time_ago }}前</span>
                             </div>
@@ -143,7 +144,8 @@
                               <div>
                                 <span class="font-semibold"> {{ reply.author.name }} </span>
                                 评论了你的帖子
-                                <a class="text-blue-600 hover:underline" href="{{ reply.target.path }}">《{{ reply.target.settings.title }}》</a>
+                                <a class="hidden text-blue-600 hover:underline sm:inline-block" data-action="click->dialog-fetch#openDialog" >《{{ reply.target.settings.title }}》</a>
+                                <a class="text-blue-600 hover:underline sm:hidden" href="{{ reply.target.path }}">《{{ reply.target.settings.title }}》</a>
                               </div>
                               <span class="text-xs text-gray-400" title="2025-07-20 17:19"> {{ reply.created_at | time_ago }}前</span>
                             </div>
@@ -222,6 +224,7 @@
                     </div>
                 </div>
               {% endfor %}
+              {% render 'paginate', paginate: paginate %}
             {% endpaginate_tag %}
           {% endif %}
         </div>
